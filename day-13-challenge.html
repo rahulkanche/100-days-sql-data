@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 13: Banking Fraud Detection - 100 Days SQL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .page {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            min-height: 600px;
+        }
+        .cover-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 700px;
+        }
+        .cover-page h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+        .day-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-size: 42px;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+        .cover-page p {
+            font-size: 22px;
+            margin-top: 40px;
+            line-height: 1.8;
+        }
+        h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 12px;
+        }
+        h3 {
+            color: #764ba2;
+            font-size: 22px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        p {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .data-link-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 4px solid #3b82f6;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        .data-link-box h3 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .data-link-box p {
+            color: #1e40af;
+            font-size: 17px;
+            margin: 15px 0;
+        }
+        .data-link-box a {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 18px 50px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s;
+        }
+        .data-link-box a:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.6);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        .requirement-box {
+            background: #fef3c7;
+            border-left: 6px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .requirement-box strong {
+            color: #d97706;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        ul {
+            margin-left: 25px;
+            line-height: 1.8;
+        }
+        ul li {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+        .final-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 700px;
+        }
+        .final-page h2 {
+            font-size: 48px;
+            border: none;
+            margin-bottom: 30px;
+        }
+        .connect-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 3px solid #3b82f6;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+        .connect-box h3 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+        .social-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+        .linkedin-btn {
+            background: #0077b5;
+        }
+        .linkedin-btn:hover {
+            background: #005885;
+            transform: translateY(-3px);
+        }
+        .github-btn {
+            background: #24292e;
+        }
+        .github-btn:hover {
+            background: #000;
+            transform: translateY(-3px);
+        }
+        .practice-box {
+            background: #f0fdf4;
+            border: 3px solid #10b981;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .practice-box h3 {
+            color: #047857;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+        .practice-box p {
+            color: #065f46;
+            font-size: 16px;
+        }
+        .signature {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #6b7280;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page 1: Cover -->
+        <div class="page cover-page">
+            <h1>📚 100 DAYS SQL</h1>
+            <h1>CODING CHALLENGE</h1>
+            <div class="day-badge">DAY 13</div>
+            <p style="font-size: 28px; margin-bottom: 50px;">Master SQL One Problem at a Time</p>
+            <p>✨ Daily SQL Problems<br>✨ Real-World Scenarios<br>✨ Complete Solutions<br>✨ Interview Ready</p>
+        </div>
+
+        <!-- Page 2: Data Link + Tables -->
+        <div class="page">
+            <div class="data-link-box">
+                <h3>📊 Download Practice Dataset</h3>
+                <p>Get the messy banking transaction data to practice this challenge!</p>
+                <a href="day-13-data.html" target="_blank">
+                    ⬇️ Click Here to Download CSV Files
+                </a>
+                <p style="color: #6b7280; font-size: 15px; margin-top: 20px;">4 tables: transactions, customers, merchants, fraud_reports</p>
+            </div>
+
+            <h2>💳 Banking Fraud Detection System</h2>
+            <h3>Database Schema - RAW DATA (Messy!)</h3>
+            <p><strong>Table 1: transactions</strong> - Sample data (25 rows total)</p>
+            <table>
+                <tr><th>txn_id</th><th>customer_id</th><th>merchant_id</th><th>amount</th><th>txn_date</th><th>status</th></tr>
+                <tr><td>TXN001</td><td>&nbsp;&nbsp;C12345&nbsp;&nbsp;</td><td>M001</td><td>$2,500.00</td><td>2024-01-15 14:23:11</td><td>COMPLETED</td></tr>
+                <tr><td>TXN002</td><td>c67890</td><td>m002</td><td>45.5</td><td>15/01/2024</td><td>pending</td></tr>
+                <tr><td>TXN003</td><td>C12345</td><td>M003</td><td>$-150</td><td>2024-01-15 14:25:00</td><td>Refund</td></tr>
+                <tr><td>TXN004</td><td>C99999</td><td>M001</td><td>15000.00</td><td>2024/01/16 03:45</td><td>FLAGGED</td></tr>
+            </table>
+            <p style="font-size: 14px; color: #6b7280; font-style: italic;">...and 21 more messy rows! Download the full dataset above.</p>
+
+            <p><strong>Table 2: customers</strong> - Customer accounts (20 rows)</p>
+            <table>
+                <tr><th>customer_id</th><th>full_name</th><th>email</th><th>account_status</th></tr>
+                <tr><td>C12345</td><td>john smith</td><td>JOHN.SMITH@EMAIL.COM</td><td>active</td></tr>
+                <tr><td>c67890</td><td>SARAH JONES</td><td>sarah@invalid</td><td>ACTIVE</td></tr>
+                <tr><td>C99999</td><td>anna garcia</td><td>anna@email.co</td><td>FLAGGED</td></tr>
+            </table>
+
+            <p><strong>Table 3: merchants</strong> - Merchant risk levels</p>
+            <table>
+                <tr><th>merchant_id</th><th>merchant_name</th><th>category</th><th>risk_level</th></tr>
+                <tr><td>M001</td><td>Amazon Store</td><td>Retail</td><td>LOW</td></tr>
+                <tr><td>M004</td><td>Crypto Exchange Pro</td><td>Finance</td><td>HIGH</td></tr>
+                <tr><td>M005</td><td>Online Casino 24/7</td><td>Gambling</td><td>HIGH</td></tr>
+            </table>
+
+            <p><strong>Table 4: fraud_reports</strong> - Reported fraud cases</p>
+            <table>
+                <tr><th>report_id</th><th>txn_id</th><th>fraud_type</th><th>verified</th></tr>
+                <tr><td>FR001</td><td>TXN004</td><td>Suspicious Amount</td><td>Yes</td></tr>
+                <tr><td>FR003</td><td>TXN015</td><td>Multiple Attempts</td><td>Yes</td></tr>
+            </table>
+        </div>
+
+        <!-- Page 3: Requirements -->
+        <div class="page">
+            <h2>📋 Problem Requirements</h2>
+            <p style="font-size: 18px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Build a fraud detection pipeline to identify suspicious transactions, validate data quality, and generate risk scores for banking security.</p>
+            
+            <div class="requirement-box">
+                <strong>🧹 Data Cleaning Tasks:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Standardize customer_id & merchant_id: uppercase, trim spaces</li>
+                    <li>Clean amount: remove $, commas, handle NULL/negative values</li>
+                    <li>Standardize dates: convert all to YYYY-MM-DD HH:MM:SS format</li>
+                    <li>Standardize status: lowercase, consistent naming</li>
+                    <li>Clean emails: trim spaces, lowercase, validate format with REGEXP</li>
+                    <li>Standardize country: uppercase, remove extra spaces</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>🔗 JOIN & Enrichment:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>JOIN with customers to get account details and status</li>
+                    <li>JOIN with merchants to get risk levels and categories</li>
+                    <li>LEFT JOIN with fraud_reports to check if already reported</li>
+                    <li>Flag orphan transactions (no customer/merchant match)</li>
+                    <li>Identify transactions with HIGH risk merchants</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>⚠️ Fraud Detection Rules:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Flag transactions with amount ≥ $10,000 as "High Amount"</li>
+                    <li>Flag transactions with HIGH risk merchant (Crypto, Gambling)</li>
+                    <li>Use LAG() to find time between consecutive transactions by customer</li>
+                    <li>Flag rapid transactions (< 5 minutes apart) as suspicious</li>
+                    <li>Flag transactions from suspended/flagged customer accounts</li>
+                    <li>Calculate fraud risk score: 0-100 (sum of all risk factors)</li>
+                    <li>Categorize as: Low Risk (0-30), Medium (31-60), High (61-100)</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 17px; color: #047857; font-weight: bold;">💡 SQL Skills Required: TRIM, UPPER, LOWER, REPLACE, CASE, CAST, STR_TO_DATE, REGEXP, Window Functions (LAG, TIMESTAMPDIFF), JOINs, CTEs, COALESCE</p>
+            
+            <p style="margin-top: 20px; font-size: 16px; color: #6b7280;">This mirrors real-world banking fraud detection systems used by financial institutions daily!</p>
+        </div>
+
+        <!-- Page 4: Final Page -->
+        <div class="page final-page">
+            <h2>🎉 Day 13 Complete!</h2>
+            <p style="font-size: 24px; color: #764ba2; font-weight: bold; margin: 20px 0;">Congratulations!</p>
+            <p style="font-size: 17px; max-width: 650px; margin-bottom: 30px;">You've learned banking fraud detection using window functions, complex JOINs, and multi-factor risk scoring! This is exactly what financial data engineers build in production systems - fraud detection pipelines that protect billions in assets.</p>
+
+            <div class="connect-box">
+                <h3>🔗 Connect & Follow</h3>
+                <p style="color: #1e40af; margin-bottom: 25px;">Join me on the 100 Days SQL journey!</p>
+                <a href="https://www.linkedin.com/in/rahulkanche/" target="_blank" class="social-btn linkedin-btn">
+                    💼 Connect on LinkedIn
+                </a>
+                <a href="https://github.com/rahulkanche/100-days-sql-data" target="_blank" class="social-btn github-btn">
+                    ⭐ Star on GitHub
+                </a>
+                <p style="margin-top: 25px; font-size: 15px; color: #6b7280;">
+                    LinkedIn: linkedin.com/in/rahulkanche<br>
+                    GitHub: github.com/rahulkanche/100-days-sql-data
+                </p>
+            </div>
+
+            <div class="practice-box">
+                <h3>💪 Keep Practicing!</h3>
+                <p>
+                    ✓ Master fraud detection patterns<br>
+                    ✓ Build risk scoring systems<br>
+                    ✓ Use window functions for time analysis<br>
+                    ✓ Prepare for Banking/FinTech interviews
+                </p>
+            </div>
+
+            <p style="margin-top: 50px; font-size: 20px; color: #667eea; font-weight: bold;">
+                Follow the 100 Days SQL Challenge<br>
+                Day 14 tomorrow - Master SQL one problem at a time!
+            </p>
+
+            <p class="signature">
+                Rahul Kanche — exploring data, decoding clarity!
+            </p>
+        </div>
+    </div>
+</body>
+</html>
