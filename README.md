@@ -10,6 +10,8 @@ This repository hosts downloadable datasets for all 100 days of the SQL Coding C
 
 **Access all datasets here:** [https://rahulkanche.github.io/100-days-sql-data/](https://yourusername.github.io/100-days-sql-data/)
 
+ https://rahulkanche.github.io/100-days-sql-data/
+
 ## 📂 Repository Structure
 
 ```
