@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 13 Data Download - Banking Fraud Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+        .topic-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .table-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .table-section h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        .table-section p {
+            color: #6b7280;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        .download-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        .download-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        .instructions {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .instructions h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .instructions pre {
+            background: #2d3748;
+            color: #48bb78;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .back-link:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>📊 Day 13 - Data Download</h1>
+            <p>Banking Fraud Detection - Transaction Analysis</p>
+            <p style="font-size: 16px; color: #9ca3af;">Download CSV files for all 4 tables with 20+ rows of messy banking data</p>
+            <div class="topic-tags">
+                <span class="tag">Fraud Detection</span>
+                <span class="tag">Window Functions</span>
+                <span class="tag">Risk Scoring</span>
+                <span class="tag">Data Cleaning</span>
+            </div>
+        </div>
+
+        <!-- Table 1: Transactions -->
+        <div class="table-section">
+            <h2>💳 Table 1: transactions</h2>
+            <p>25 rows of messy transaction data with inconsistent formats, NULL values, and suspicious patterns</p>
+            <button class="download-btn" onclick="downloadCSV('transactions')">⬇️ Download transactions.csv</button>
+            <div style="overflow-x: auto;">
+                <table id="transactions">
+                    <thead>
+                        <tr>
+                            <th>txn_id</th>
+                            <th>customer_id</th>
+                            <th>merchant_id</th>
+                            <th>amount</th>
+                            <th>txn_date</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>TXN001</td><td>  C12345  </td><td>M001</td><td>$2,500.00</td><td>2024-01-15 14:23:11</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN002</td><td>c67890</td><td>m002</td><td>45.5</td><td>15/01/2024</td><td>pending</td></tr>
+                        <tr><td>TXN003</td><td>C12345</td><td>M003</td><td>$-150</td><td>2024-01-15 14:25:00</td><td>Refund</td></tr>
+                        <tr><td>TXN004</td><td>C99999</td><td>M001</td><td>15000.00</td><td>2024/01/16 03:45</td><td>FLAGGED</td></tr>
+                        <tr><td>TXN005</td><td>NULL</td><td>M002</td><td>$99.99</td><td>2024-01-16</td><td>failed</td></tr>
+                        <tr><td>TXN006</td><td>C11111</td><td>M004</td><td>$25,000.00</td><td>2024-01-16 10:15:30</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN007</td><td>c22222</td><td>m005</td><td>500</td><td>16/01/2024 11:30</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN008</td><td>C12345</td><td>M001</td><td>$125.50</td><td>2024-01-16 14:26:00</td><td>completed</td></tr>
+                        <tr><td>TXN009</td><td>C67890</td><td>M002</td><td>$78.00</td><td>2024/01/17 09:00</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN010</td><td>c33333</td><td>M004</td><td>50000</td><td>17/01/2024</td><td>FLAGGED</td></tr>
+                        <tr><td>TXN011</td><td>C11111</td><td>M005</td><td>$1,200.00</td><td>2024-01-17 15:45:22</td><td>completed</td></tr>
+                        <tr><td>TXN012</td><td>C22222</td><td>M003</td><td>$350.99</td><td>2024-01-18 08:12:00</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN013</td><td>  C44444  </td><td>m001</td><td>89.5</td><td>18/01/2024 10:30</td><td>pending</td></tr>
+                        <tr><td>TXN014</td><td>C99999</td><td>M004</td><td>$8,500.00</td><td>2024/01/18 14:20</td><td>FLAGGED</td></tr>
+                        <tr><td>TXN015</td><td>c12345</td><td>M002</td><td>45</td><td>2024-01-18 16:00:00</td><td>completed</td></tr>
+                        <tr><td>TXN016</td><td>C33333</td><td>M005</td><td>$3,750.00</td><td>19/01/2024</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN017</td><td>C55555</td><td>M001</td><td>$0</td><td>2024-01-19 11:15:30</td><td>failed</td></tr>
+                        <tr><td>TXN018</td><td>c11111</td><td>M003</td><td>$-200</td><td>2024/01/19 13:45</td><td>Refund</td></tr>
+                        <tr><td>TXN019</td><td>C67890</td><td>M002</td><td>125.99</td><td>19/01/2024 16:20</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN020</td><td>NULL</td><td>M004</td><td>$45,000.00</td><td>2024-01-20</td><td>FLAGGED</td></tr>
+                        <tr><td>TXN021</td><td>C22222</td><td>m001</td><td>$67.50</td><td>2024-01-20 09:30:15</td><td>completed</td></tr>
+                        <tr><td>TXN022</td><td>C44444</td><td>M005</td><td>$2,100.00</td><td>20/01/2024 12:00</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN023</td><td>c99999</td><td>M004</td><td>12000</td><td>2024/01/20 15:45</td><td>FLAGGED</td></tr>
+                        <tr><td>TXN024</td><td>C12345</td><td>M003</td><td>$450.00</td><td>2024-01-21 10:10:00</td><td>COMPLETED</td></tr>
+                        <tr><td>TXN025</td><td>C55555</td><td>M002</td><td>$99.99</td><td>21/01/2024</td><td>pending</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Table 2: Customers -->
+        <div class="table-section">
+            <h2>👥 Table 2: customers</h2>
+            <p>20 rows of customer data with inconsistent names, emails, and account statuses</p>
+            <button class="download-btn" onclick="downloadCSV('customers')">⬇️ Download customers.csv</button>
+            <div style="overflow-x: auto;">
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>customer_id</th>
+                            <th>full_name</th>
+                            <th>email</th>
+                            <th>account_status</th>
+                            <th>join_date</th>
+                            <th>country</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>C12345</td><td>john smith</td><td>JOHN.SMITH@EMAIL.COM</td><td>active</td><td>2023-05-10</td><td>  USA  </td></tr>
+                        <tr><td>c67890</td><td>SARAH JONES</td><td>sarah@invalid</td><td>ACTIVE</td><td>10/06/2023</td><td>uk</td></tr>
+                        <tr><td>C11111</td><td>  Mike Wilson  </td><td>mike.w@bank.com</td><td>suspended</td><td>2023-07-15</td><td>Canada</td></tr>
+                        <tr><td>C99999</td><td>anna garcia</td><td>anna@email.co</td><td>FLAGGED</td><td>2024-01-01</td><td>MEXICO</td></tr>
+                        <tr><td>C22222</td><td>Bob Brown</td><td>  bob@mail.net  </td><td>active</td><td>2023/08/20</td><td>usa</td></tr>
+                        <tr><td>c33333</td><td>EMMA DAVIS</td><td>emma.d@crypto.com</td><td>FLAGGED</td><td>2023-09-10</td><td>UK</td></tr>
+                        <tr><td>C44444</td><td>david lee</td><td>DAVID@SHOP.COM</td><td>active</td><td>15/10/2023</td><td>  CANADA  </td></tr>
+                        <tr><td>C55555</td><td>Lisa Martinez</td><td>lisa_m</td><td>active</td><td>2023-11-05</td><td>spain</td></tr>
+                        <tr><td>c66666</td><td>JAMES TAYLOR</td><td>james.t@email.com</td><td>suspended</td><td>2023/12/01</td><td>USA</td></tr>
+                        <tr><td>C77777</td><td>  Maria Lopez  </td><td>maria@invalid</td><td>active</td><td>20-12-2023</td><td>mexico</td></tr>
+                        <tr><td>C88888</td><td>robert clark</td><td>ROBERT.C@MAIL.NET</td><td>ACTIVE</td><td>2024-01-10</td><td>UK</td></tr>
+                        <tr><td>c10000</td><td>Nancy White</td><td>nancy.white@bank.com</td><td>active</td><td>15/01/2024</td><td>canada</td></tr>
+                        <tr><td>C20000</td><td>KEVIN HARRIS</td><td>kevin@crypto.io</td><td>FLAGGED</td><td>2024/01/18</td><td>  USA  </td></tr>
+                        <tr><td>C30000</td><td>linda martin</td><td>linda@email.com</td><td>active</td><td>2024-01-20</td><td>Spain</td></tr>
+                        <tr><td>c40000</td><td>Paul Thompson</td><td>paul</td><td>suspended</td><td>22/01/2024</td><td>UK</td></tr>
+                        <tr><td>C50000</td><td>  KAREN WALKER  </td><td>karen.w@shop.net</td><td>active</td><td>2024-01-25</td><td>USA</td></tr>
+                        <tr><td>C60000</td><td>mark hall</td><td>MARK.H@EMAIL.COM</td><td>ACTIVE</td><td>26/01/2024</td><td>canada</td></tr>
+                        <tr><td>c70000</td><td>Sandra Young</td><td>sandra_y@invalid</td><td>active</td><td>2024/01/28</td><td>  MEXICO  </td></tr>
+                        <tr><td>C80000</td><td>DANIEL KING</td><td>daniel@bank.com</td><td>active</td><td>2024-01-30</td><td>uk</td></tr>
+                        <tr><td>C90000</td><td>betty wright</td><td>betty.w@mail.net</td><td>suspended</td><td>01-02-2024</td><td>Spain</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Table 3: Merchants -->
+        <div class="table-section">
+            <h2>🏪 Table 3: merchants</h2>
+            <p>5 rows of merchant reference data with risk levels (Clean data)</p>
+            <button class="download-btn" onclick="downloadCSV('merchants')">⬇️ Download merchants.csv</button>
+            <div style="overflow-x: auto;">
+                <table id="merchants">
+                    <thead>
+                        <tr>
+                            <th>merchant_id</th>
+                            <th>merchant_name</th>
+                            <th>category</th>
+                            <th>risk_level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>M001</td><td>Amazon Store</td><td>Retail</td><td>LOW</td></tr>
+                        <tr><td>M002</td><td>Gas Station XYZ</td><td>Fuel</td><td>LOW</td></tr>
+                        <tr><td>M003</td><td>Luxury Goods Ltd</td><td>Retail</td><td>MEDIUM</td></tr>
+                        <tr><td>M004</td><td>Crypto Exchange Pro</td><td>Finance</td><td>HIGH</td></tr>
+                        <tr><td>M005</td><td>Online Casino 24/7</td><td>Gambling</td><td>HIGH</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Table 4: Fraud Reports -->
+        <div class="table-section">
+            <h2>⚠️ Table 4: fraud_reports</h2>
+            <p>8 rows of reported fraud cases linked to transactions</p>
+            <button class="download-btn" onclick="downloadCSV('fraud_reports')">⬇️ Download fraud_reports.csv</button>
+            <div style="overflow-x: auto;">
+                <table id="fraud_reports">
+                    <thead>
+                        <tr>
+                            <th>report_id</th>
+                            <th>txn_id</th>
+                            <th>report_date</th>
+                            <th>fraud_type</th>
+                            <th>verified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>FR001</td><td>TXN004</td><td>2024-01-16</td><td>Suspicious Amount</td><td>Yes</td></tr>
+                        <tr><td>FR002</td><td>TXN010</td><td>2024-01-17</td><td>Unusual Location</td><td>No</td></tr>
+                        <tr><td>FR003</td><td>TXN015</td><td>2024-01-18</td><td>Multiple Attempts</td><td>Yes</td></tr>
+                        <tr><td>FR004</td><td>TXN006</td><td>2024-01-16</td><td>High Value Transaction</td><td>Yes</td></tr>
+                        <tr><td>FR005</td><td>TXN020</td><td>2024-01-20</td><td>Suspicious Amount</td><td>Yes</td></tr>
+                        <tr><td>FR006</td><td>TXN014</td><td>2024-01-18</td><td>Rapid Transactions</td><td>No</td></tr>
+                        <tr><td>FR007</td><td>TXN023</td><td>2024-01-20</td><td>Flagged Account</td><td>Yes</td></tr>
+                        <tr><td>FR008</td><td>TXN011</td><td>2024-01-17</td><td>High Risk Merchant</td><td>Yes</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h2>📝 How to Import CSV Files</h2>
+            <h3 style="color: #764ba2; margin-top: 20px;">MySQL:</h3>
+            <pre>
+CREATE DATABASE banking_fraud;
+USE banking_fraud;
+
+-- Import transactions
+LOAD DATA LOCAL INFILE 'transactions.csv'
+INTO TABLE transactions
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+-- Repeat for other tables...</pre>
+
+            <h3 style="color: #764ba2; margin-top: 20px;">PostgreSQL:</h3>
+            <pre>
+CREATE DATABASE banking_fraud;
+\c banking_fraud
+
+-- Import transactions
+COPY transactions FROM '/path/to/transactions.csv'
+DELIMITER ',' CSV HEADER;
+
+-- Repeat for other tables...</pre>
+
+            <p style="margin-top: 20px; color: #6b7280;">
+                <strong>Tip:</strong> Create tables with appropriate data types before importing. Use VARCHAR for IDs, DECIMAL for amounts, TIMESTAMP for dates.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="day-13-challenge.html" class="back-link">← Back to Day 13 Challenge</a>
+        </div>
+    </div>
+
+    <script>
+        function downloadCSV(tableName) {
+            const table = document.getElementById(tableName);
+            let csv = [];
+            
+            // Get headers
+            const headers = [];
+            table.querySelectorAll('thead th').forEach(th => {
+                headers.push(th.textContent);
+            });
+            csv.push(headers.join(','));
+            
+            // Get rows
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const row = [];
+                tr.querySelectorAll('td').forEach(td => {
+                    let text = td.textContent;
+                    // Escape quotes and wrap in quotes if contains comma
+                    if (text.includes(',') || text.includes('"')) {
+                        text = '"' + text.replace(/"/g, '""') + '"';
+                    }
+                    row.push(text);
+                });
+                csv.push(row.join(','));
+            });
+            
+            // Create download
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `day_13_${tableName}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
