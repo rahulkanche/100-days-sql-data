@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 12: Complete Data Cleaning Pipeline - 100 Days SQL</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Day 12: Complete Data Cleaning - 100 Days SQL</title>
     <style>
         * {
             margin: 0;
@@ -13,249 +11,279 @@
             box-sizing: border-box;
         }
         body {
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-        }
-        .download-bar {
-            position: sticky;
-            top: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
+            min-height: 100vh;
+            padding: 20px;
         }
-        .download-bar button {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-        .download-bar button:hover {
-            transform: scale(1.05);
-        }
-        #pdf-content {
-            max-width: 800px;
-            margin: 20px auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
         }
         .page {
-            padding: 40px 50px 60px 50px;
             background: white;
-            min-height: 1000px;
-            position: relative;
-            border-bottom: 2px dashed #e5e7eb;
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            min-height: 600px;
         }
-        .signature {
-            position: absolute;
-            bottom: 25px;
-            left: 50px;
-            font-size: 12px;
-            color: #888;
-        }
-        .cover {
+        .cover-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            min-height: 1000px;
+            min-height: 700px;
         }
-        .cover h1 {
-            font-size: 52px;
-            margin-bottom: 15px;
+        .cover-page h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
         }
-        .cover .day-badge {
-            font-size: 36px;
+        .day-badge {
             background: rgba(255,255,255,0.2);
-            padding: 20px 50px;
+            padding: 20px 60px;
             border-radius: 50px;
-            margin: 30px 0;
+            font-size: 42px;
             font-weight: bold;
+            margin: 30px 0;
+        }
+        .cover-page p {
+            font-size: 22px;
+            margin-top: 40px;
+            line-height: 1.8;
         }
         h2 {
             color: #667eea;
-            font-size: 30px;
-            margin-bottom: 20px;
+            font-size: 32px;
+            margin-bottom: 25px;
             border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
         }
         h3 {
             color: #764ba2;
-            font-size: 20px;
-            margin-top: 20px;
-            margin-bottom: 12px;
+            font-size: 22px;
+            margin-top: 25px;
+            margin-bottom: 15px;
         }
         p {
-            line-height: 1.7;
-            font-size: 15px;
+            line-height: 1.8;
+            font-size: 16px;
             color: #333;
-            margin-bottom: 12px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 13px;
-        }
-        table th {
-            background: #667eea;
-            color: white;
-            padding: 10px;
-            text-align: left;
-        }
-        table td {
-            border: 1px solid #e2e8f0;
-            padding: 10px;
-        }
-        table tr:nth-child(even) {
-            background: #f7fafc;
+            margin-bottom: 15px;
         }
         .data-link-box {
-            background: #dbeafe;
-            border: 3px solid #3b82f6;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 4px solid #3b82f6;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
         }
         .data-link-box h3 {
             color: #1e40af;
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 15px;
+        }
+        .data-link-box p {
+            color: #1e40af;
+            font-size: 17px;
+            margin: 15px 0;
         }
         .data-link-box a {
             display: inline-block;
             background: #3b82f6;
             color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
+            padding: 18px 50px;
+            border-radius: 35px;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 15px;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s;
         }
         .data-link-box a:hover {
             background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.6);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        table tr:nth-child(even) {
+            background: #f7fafc;
         }
         .requirement-box {
             background: #fef3c7;
-            border-left: 5px solid #f59e0b;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
+            border-left: 6px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
         }
         .requirement-box strong {
             color: #d97706;
-            font-size: 16px;
+            font-size: 18px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         ul {
-            margin-left: 20px;
-            line-height: 1.6;
+            margin-left: 25px;
+            line-height: 1.8;
         }
         ul li {
-            margin: 8px 0;
-            font-size: 14px;
+            margin: 10px 0;
+            font-size: 15px;
         }
         .final-page {
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            min-height: 1000px;
+            min-height: 700px;
+        }
+        .final-page h2 {
+            font-size: 48px;
+            border: none;
+            margin-bottom: 30px;
         }
         .connect-box {
-            margin-top: 40px;
-            padding: 30px;
-            background: #f0f9ff;
-            border-radius: 15px;
-            width: 70%;
-            max-width: 500px;
-            border: 2px solid #3b82f6;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 3px solid #3b82f6;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
+            width: 100%;
+            max-width: 600px;
         }
         .connect-box h3 {
             color: #1e40af;
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
         }
-        .connect-box a {
+        .social-btn {
             display: inline-block;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 15px 40px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
-            margin: 5px;
+            font-size: 18px;
+            margin: 10px;
             color: white;
+            transition: all 0.3s;
         }
         .linkedin-btn {
             background: #0077b5;
         }
+        .linkedin-btn:hover {
+            background: #005885;
+            transform: translateY(-3px);
+        }
         .github-btn {
             background: #24292e;
+        }
+        .github-btn:hover {
+            background: #000;
+            transform: translateY(-3px);
+        }
+        .practice-box {
+            background: #f0fdf4;
+            border: 3px solid #10b981;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .practice-box h3 {
+            color: #047857;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+        .practice-box p {
+            color: #065f46;
+            font-size: 16px;
+        }
+        .signature {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #6b7280;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="download-bar">
-        <button onclick="window.print()">🖨️ Print/Save as PDF</button>
-        <button onclick="downloadPDF()">⬇️ Download as PDF</button>
-        <span style="color: white; margin-left: 20px;">Day 12: Complete Data Cleaning Pipeline</span>
-    </div>
-
-    <div id="pdf-content">
+    <div class="container">
         <!-- Page 1: Cover -->
-        <div class="page cover">
-            <div>
-                <h1>📚 100 DAYS SQL</h1>
-                <h1>CODING CHALLENGE</h1>
-                <div class="day-badge">DAY 12</div>
-                <div style="font-size: 28px; margin-bottom: 50px;">Master SQL One Problem at a Time</div>
-                <p style="font-size: 20px; margin-top: 50px;">✨ Daily SQL Problems<br>✨ Real-World Scenarios<br>✨ Complete Solutions<br>✨ Interview Ready</p>
-            </div>
-            <div class="signature">Created by: Rahul Kanche</div>
+        <div class="page cover-page">
+            <h1>📚 100 DAYS SQL</h1>
+            <h1>CODING CHALLENGE</h1>
+            <div class="day-badge">DAY 12</div>
+            <p style="font-size: 28px; margin-bottom: 50px;">Master SQL One Problem at a Time</p>
+            <p>✨ Daily SQL Problems<br>✨ Real-World Scenarios<br>✨ Complete Solutions<br>✨ Interview Ready</p>
         </div>
 
         <!-- Page 2: Data Link + Tables -->
         <div class="page">
             <div class="data-link-box">
                 <h3>📊 Download Practice Dataset</h3>
-                <p style="color: #1e40af; font-size: 16px; margin: 15px 0;">Get the messy e-commerce data to practice this challenge!</p>
+                <p>Get the messy e-commerce data to practice this challenge!</p>
                 <a href="https://rahulkanche.github.io/100-days-sql-data/day-12-data.html" target="_blank">
                     ⬇️ Click Here to Download CSV Files
                 </a>
-                <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">3 tables: raw_transactions, product_catalog, customer_profiles</p>
+                <p style="color: #6b7280; font-size: 15px; margin-top: 20px;">3 tables: raw_transactions, product_catalog, customer_profiles</p>
             </div>
 
             <h2>🔧 E-Commerce Data Cleaning Pipeline</h2>
             <h3>Database Schema - RAW DATA (Messy!)</h3>
-            <p><strong>Table 1: raw_transactions</strong></p>
+            <p><strong>Table 1: raw_transactions</strong> - Sample data (10 rows total)</p>
             <table>
                 <tr><th>trans_id</th><th>customer_email</th><th>product_sku</th><th>amount</th><th>trans_date</th><th>status</th></tr>
-                <tr><td>TX001</td><td>  JOHN@EMAIL.COM  </td><td>SKU-123-A</td><td>$125.50</td><td>2024-01-15 14:30:00</td><td>completed</td></tr>
+                <tr><td>TX001</td><td>&nbsp;&nbsp;JOHN@EMAIL.COM&nbsp;&nbsp;</td><td>SKU-123-A</td><td>$125.50</td><td>2024-01-15 14:30:00</td><td>completed</td></tr>
                 <tr><td>TX002</td><td>sarah.j@invalid</td><td>sku-456-b</td><td>45</td><td>15/01/2024</td><td>PENDING</td></tr>
                 <tr><td>TX003</td><td>mike@shop.com</td><td>SKU-789-C</td><td>$0</td><td>2024-01-20</td><td>Cancelled</td></tr>
                 <tr><td>TX004</td><td>emma@store.io</td><td>sku-123-a</td><td>125.50</td><td>2024/01/25 10:15</td><td>COMPLETED</td></tr>
-                <tr><td>TX005</td><td>LISA@EMAIL.COM</td><td>SKU-999</td><td>NULL</td><td>2024-02-01</td><td>failed</td></tr>
             </table>
-            <p style="font-size: 13px; color: #6b7280; font-style: italic;">...and 5 more rows (download data to see all)</p>
-            <div class="signature">Created by: Rahul Kanche</div>
+            <p style="font-size: 14px; color: #6b7280; font-style: italic;">...and 6 more messy rows! Download the full dataset above.</p>
+
+            <p><strong>Table 2: product_catalog</strong> - Clean reference data</p>
+            <table>
+                <tr><th>sku</th><th>product_name</th><th>category</th><th>price</th></tr>
+                <tr><td>SKU-123-A</td><td>Wireless Mouse</td><td>Electronics</td><td>125.50</td></tr>
+                <tr><td>SKU-456-B</td><td>USB Cable</td><td>Accessories</td><td>45.00</td></tr>
+                <tr><td>SKU-789-C</td><td>Laptop Stand</td><td>Furniture</td><td>299.99</td></tr>
+            </table>
+
+            <p><strong>Table 3: customer_profiles</strong> - Also messy data!</p>
+            <table>
+                <tr><th>email</th><th>full_name</th><th>join_date</th><th>country</th></tr>
+                <tr><td>john@email.com</td><td>john smith</td><td>2023-05-10</td><td>&nbsp;&nbsp;USA&nbsp;&nbsp;</td></tr>
+                <tr><td>SARAH.J@INVALID</td><td>Sarah Jones</td><td>05/10/2023</td><td>uk</td></tr>
+                <tr><td>mike@shop.com</td><td>MIKE WILSON</td><td>2023-06-15</td><td>Canada</td></tr>
+            </table>
         </div>
 
-        <!-- Page 3: Problem Requirements -->
+        <!-- Page 3: Requirements -->
         <div class="page">
             <h2>📋 Problem Requirements</h2>
-            <p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 20px;">Build a complete data cleaning pipeline using SQL to transform messy e-commerce data into clean, analytics-ready format.</p>
+            <p style="font-size: 18px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Build a complete data cleaning pipeline using SQL to transform messy e-commerce data into clean, analytics-ready format.</p>
             
             <div class="requirement-box">
                 <strong>🧹 Data Cleaning Tasks:</strong>
@@ -263,119 +291,79 @@
                     <li>Standardize emails: trim spaces, lowercase</li>
                     <li>Standardize SKU: uppercase format</li>
                     <li>Clean amount: remove $, handle NULL, negative values</li>
-                    <li>Standardize dates: convert to YYYY-MM-DD format</li>
-                    <li>Clean names: proper case, trim spaces</li>
+                    <li>Standardize dates: convert all to YYYY-MM-DD format</li>
+                    <li>Standardize status: lowercase, consistent values</li>
+                    <li>Clean names: proper case (Title Case), trim spaces</li>
                     <li>Standardize country: uppercase</li>
                 </ul>
             </div>
 
             <div class="requirement-box">
                 <strong>🔗 JOIN & Enrichment:</strong>
-                <ul>
+                <ul style="margin-top: 10px;">
                     <li>JOIN with product_catalog to get product details</li>
                     <li>JOIN with customer_profiles to get customer info</li>
-                    <li>LEFT JOIN to keep transactions without matches</li>
-                    <li>Flag orphan records</li>
+                    <li>LEFT JOIN to keep all transactions (even without matches)</li>
+                    <li>Flag orphan records (transactions with no product/customer match)</li>
                 </ul>
             </div>
 
             <div class="requirement-box">
-                <strong>✅ Validation & Quality:</strong>
-                <ul>
-                    <li>Validate email format with REGEXP</li>
+                <strong>✅ Validation & Quality Checks:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Validate email format using REGEXP pattern</li>
                     <li>Flag amount mismatches with catalog price</li>
-                    <li>Calculate data quality score per record</li>
+                    <li>Identify potential duplicate transactions</li>
+                    <li>Calculate data quality score for each record (0-100)</li>
+                    <li>Categorize quality: Excellent (90+), Good (70-89), Poor (<70)</li>
                 </ul>
             </div>
 
-            <p style="margin-top: 20px; font-size: 16px; color: #047857; font-weight: bold;">💡 Skills: TRIM, UPPER, LOWER, REPLACE, CASE, CAST, STR_TO_DATE, REGEXP, JOINs, CTEs</p>
+            <p style="margin-top: 30px; font-size: 17px; color: #047857; font-weight: bold;">💡 SQL Skills Required: TRIM, UPPER, LOWER, REPLACE, CASE, CAST, STR_TO_DATE, REGEXP_LIKE, JOINs, CTEs, COALESCE, NULLIF</p>
             
-            <div class="signature">Created by: Rahul Kanche</div>
+            <p style="margin-top: 20px; font-size: 16px; color: #6b7280;">This is exactly what Data Engineers do daily - cleaning messy data from various sources!</p>
         </div>
 
-        <!-- Page 4: Final Page with Links -->
+        <!-- Page 4: Final Page -->
         <div class="page final-page">
-            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <h2 style="color: #667eea; font-size: 40px; border: none; margin-bottom: 20px;">🎉 Day 12 Complete!</h2>
-                <p style="font-size: 22px; color: #764ba2; font-weight: bold; margin: 25px 0;">Congratulations!</p>
-                <p style="font-size: 16px; max-width: 600px; text-align: center;">You've mastered complete data cleaning using all SQL concepts! This is real-world Data Engineering!</p>
+            <h2>🎉 Day 12 Complete!</h2>
+            <p style="font-size: 24px; color: #764ba2; font-weight: bold; margin: 20px 0;">Congratulations!</p>
+            <p style="font-size: 17px; max-width: 650px; margin-bottom: 30px;">You've learned complete data cleaning using all SQL concepts! This is exactly what Data Engineers work with in real-world scenarios - messy data from multiple sources that needs standardization, validation, and quality scoring.</p>
 
-                <div class="connect-box">
-                    <h3>🔗 Connect & Follow</h3>
-                    <p style="text-align: center; margin-bottom: 20px;">
-                        <a href="https://www.linkedin.com/in/rahulkanche/" target="_blank" class="linkedin-btn">
-                            💼 Connect on LinkedIn
-                        </a>
-                    </p>
-                    <p style="text-align: center;">
-                        <a href="https://github.com/rahulkanche/100-days-sql-data" target="_blank" class="github-btn">
-                            ⭐ Star on GitHub
-                        </a>
-                    </p>
-                    <p style="margin-top: 20px; font-size: 14px; color: #6b7280;">
-                        LinkedIn: linkedin.com/in/rahulkanche<br>
-                        GitHub: github.com/rahulkanche/100-days-sql-data
-                    </p>
-                </div>
-
-                <div style="margin-top: 40px; padding: 25px; background: #f0fdf4; border-radius: 15px; width: 70%; max-width: 500px;">
-                    <h3 style="color: #047857; font-size: 22px; margin-bottom: 12px; text-align: center;">💪 Keep Practicing!</h3>
-                    <p style="color: #065f46; font-size: 15px; text-align: center;">
-                        Practice on messy real-world data<br>
-                        Build complete cleaning pipelines<br>
-                        Master data quality validation
-                    </p>
-                </div>
-
-                <p style="margin-top: 50px; font-size: 18px; color: #667eea; font-weight: bold; text-align: center;">
-                    Follow the 100 Days SQL Challenge<br>
-                    Master SQL one problem at a time! 🚀
-                </p>
-
-                <p style="margin-top: 40px; font-size: 16px; color: #888; text-align: center; font-style: italic;">
-                    Rahul Kanche – exploring data, decoding clarity!
+            <div class="connect-box">
+                <h3>🔗 Connect & Follow</h3>
+                <p style="color: #1e40af; margin-bottom: 25px;">Join me on the 100 Days SQL journey!</p>
+                <a href="https://www.linkedin.com/in/rahulkanche/" target="_blank" class="social-btn linkedin-btn">
+                    💼 Connect on LinkedIn
+                </a>
+                <a href="https://github.com/rahulkanche/100-days-sql-data" target="_blank" class="social-btn github-btn">
+                    ⭐ Star on GitHub
+                </a>
+                <p style="margin-top: 25px; font-size: 15px; color: #6b7280;">
+                    LinkedIn: linkedin.com/in/rahulkanche<br>
+                    GitHub: github.com/rahulkanche/100-days-sql-data
                 </p>
             </div>
-            <div class="signature">Created by: Rahul Kanche</div>
+
+            <div class="practice-box">
+                <h3>💪 Keep Practicing!</h3>
+                <p>
+                    ✓ Practice on messy real-world data<br>
+                    ✓ Build complete cleaning pipelines<br>
+                    ✓ Master data quality validation<br>
+                    ✓ Prepare for Data Engineering interviews
+                </p>
+            </div>
+
+            <p style="margin-top: 50px; font-size: 20px; color: #667eea; font-weight: bold;">
+                Follow the 100 Days SQL Challenge<br>
+                Master SQL one problem at a time! 🚀
+            </p>
+
+            <p class="signature">
+                Rahul Kanche — exploring data, decoding clarity!
+            </p>
         </div>
     </div>
-
-    <script>
-        async function downloadPDF() {
-            const btn = event.target;
-            btn.disabled = true;
-            btn.textContent = 'Generating...';
-
-            try {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pages = document.querySelectorAll('.page');
-                
-                for (let i = 0; i < pages.length; i++) {
-                    const canvas = await html2canvas(pages[i], {
-                        scale: 1.0,
-                        useCORS: true,
-                        logging: false,
-                        backgroundColor: '#ffffff'
-                    });
-                    
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgWidth = 210;
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                    
-                    if (i > 0) pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                }
-                
-                pdf.save('day-12-challenge.pdf');
-                
-                btn.disabled = false;
-                btn.textContent = '⬇️ Download as PDF';
-            } catch (error) {
-                btn.disabled = false;
-                btn.textContent = '❌ Error - Try again';
-            }
-        }
-    </script>
 </body>
 </html>
