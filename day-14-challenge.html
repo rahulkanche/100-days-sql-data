@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Days SQL Challenge - Day 14</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {margin: 0;padding: 20px;font-family: Arial, sans-serif;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);min-height: 100vh;}
+        .download-container {max-width: 800px;margin: 0 auto 30px;background: white;padding: 30px;border-radius: 15px;text-align: center;box-shadow: 0 10px 40px rgba(0,0,0,0.3);}
+        .download-btn {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;border: none;padding: 15px 40px;font-size: 18px;border-radius: 30px;cursor: pointer;font-weight: bold;}
+        #pdf-content {max-width: 800px;margin: 0 auto;background: white;box-shadow: 0 0 20px rgba(0,0,0,0.2);}
+        .page {padding: 40px 50px 60px 50px;background: white;min-height: 1000px;position: relative;}
+        .signature {position: absolute;bottom: 25px;left: 50px;font-size: 12px;color: #888;}
+        .cover {display: flex;flex-direction: column;justify-content: center;align-items: center;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;text-align: center;min-height: 1000px;}
+        .cover h1 {font-size: 52px;margin-bottom: 15px;}
+        .cover .day-badge {font-size: 36px;background: rgba(255,255,255,0.2);padding: 20px 50px;border-radius: 50px;margin: 30px 0;font-weight: bold;}
+        h2 {color: #667eea;font-size: 30px;margin-bottom: 20px;border-bottom: 3px solid #667eea;padding-bottom: 10px;}
+        h3 {color: #764ba2;font-size: 20px;margin-top: 20px;margin-bottom: 12px;}
+        p {line-height: 1.7;font-size: 15px;color: #333;margin-bottom: 12px;}
+        .link-box {background: #dbeafe;border: 3px solid #3b82f6;padding: 20px;border-radius: 10px;margin: 20px 0;text-align: center;}
+        .link-box h3 {color: #1e40af;font-size: 20px;margin-bottom: 12px;}
+        .link-box .url-text {background: white;color: #1e40af;font-size: 14px;font-weight: bold;padding: 10px;border-radius: 6px;margin: 8px 0;display: block;}
+        .code-block {background: #2d3748;color: #48bb78;padding: 15px;border-radius: 8px;font-family: 'Courier New', monospace;font-size: 12px;margin: 15px 0;line-height: 1.5;white-space: pre;overflow-x: auto;}
+        table {width: 100%;border-collapse: collapse;margin: 15px 0;font-size: 13px;}
+        table th {background: #667eea;color: white;padding: 10px;text-align: left;}
+        table td {border: 1px solid #e2e8f0;padding: 10px;}
+        table tr:nth-child(even) {background: #f7fafc;}
+        .hint-box {background: #dbeafe;border-left: 5px solid #3b82f6;padding: 15px;margin: 15px 0;border-radius: 5px;}
+        .hint-box strong {color: #1e40af;font-size: 16px;display: block;margin-bottom: 8px;}
+        .solution-box {background: #f0fdf4;border-left: 5px solid #10b981;padding: 15px;margin: 15px 0;border-radius: 5px;}
+        .solution-box strong {color: #047857;font-size: 16px;display: block;margin-bottom: 8px;}
+        ul {margin-left: 20px;line-height: 1.6;}
+        ul li {margin: 8px 0;font-size: 14px;}
+        .requirement-box {background: #fef3c7;border-left: 5px solid #f59e0b;padding: 15px;margin: 15px 0;border-radius: 5px;}
+        .requirement-box strong {color: #d97706;font-size: 16px;display: block;margin-bottom: 8px;}
+        .final-page {display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;}
+        .social-box {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;padding: 25px;border-radius: 15px;margin-top: 30px;}
+    </style>
+</head>
+<body>
+    <div class="download-container">
+        <h1 style="color: #667eea; margin-bottom: 10px;">📚 100 Days SQL Challenge</h1>
+        <p style="color: #666; margin-bottom: 25px; font-size: 18px;">Day 14: Hospital Patient Records - Medication Tracking</p>
+        <button class="download-btn" onclick="generatePDF()">⬇️ Download Day 14 Challenge</button>
+        <p id="status" style="margin-top: 15px; color: #666;"></p>
+    </div>
+    <div id="pdf-content">
+        <div class="page cover"><div><h1>📚 100 DAYS SQL</h1><h1>CODING CHALLENGE</h1><div class="day-badge">DAY 14</div><div style="font-size: 28px; margin-bottom: 50px;">Master SQL One Problem at a Time</div><p style="font-size: 20px; margin-top: 50px;">✨ Daily SQL Problems<br>✨ Real-World Scenarios<br>✨ Complete Solutions<br>✨ Interview Ready</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><div class="link-box"><h3>📊 Download Practice Dataset</h3><p style="color: #1e40af; margin: 10px 0;">Copy this link to get the CSV files:</p><div class="url-text">rahulkanche.github.io/100-days-sql-data/day-14-data.html</div><p style="color: #6b7280; font-size: 13px; margin-top: 10px;">(4 tables: patient_records, medications, prescriptions, doctors)</p></div><h2>🏥 Hospital Patient Management</h2><h3>Table 1: patient_records (5 of 25 rows)</h3><table><tr><th>patient_id</th><th>full_name</th><th>date_of_birth</th><th>admission_date</th><th>discharge_date</th><th>diagnosis</th></tr><tr><td>  P001  </td><td>john smith</td><td>15/05/1985</td><td>2024-01-10 08:30:00</td><td>2024-01-15</td><td>Hypertension</td></tr><tr><td>p002</td><td>SARAH JONES</td><td>1990-08-22</td><td>10/01/2024</td><td>NULL</td><td>  Diabetes  </td></tr><tr><td>P003</td><td>  Mike Wilson  </td><td>1978-03-10</td><td>2024/01/12 14:45</td><td>2024-01-20</td><td>flu</td></tr><tr><td>P004</td><td>anna garcia</td><td>22-07-1995</td><td>2024-01-15</td><td>NULL</td><td>PNEUMONIA</td></tr><tr><td>p005</td><td>Bob Brown</td><td>1982/11/30</td><td>15/01/2024 09:00</td><td>2024-01-18</td><td>Fracture</td></tr></table><p style="font-size: 13px; color: #6b7280; font-style: italic;">...20 more rows! Download above.</p><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><p><strong>Table 2: medications</strong></p><table><tr><th>med_id</th><th>medication_name</th><th>category</th><th>unit_price</th><th>risk_level</th></tr><tr><td>MED001</td><td>Aspirin</td><td>Pain Relief</td><td>5.50</td><td>LOW</td></tr><tr><td>MED002</td><td>Metformin</td><td>Diabetes</td><td>12.00</td><td>LOW</td></tr><tr><td>MED003</td><td>Lisinopril</td><td>Hypertension</td><td>18.50</td><td>MEDIUM</td></tr><tr><td>MED004</td><td>Warfarin</td><td>Blood Thinner</td><td>25.00</td><td>HIGH</td></tr><tr><td>MED005</td><td>Morphine</td><td>Pain Relief</td><td>45.00</td><td>HIGH</td></tr></table><p><strong>Table 3: prescriptions</strong></p><table><tr><th>prescription_id</th><th>patient_id</th><th>doctor_id</th><th>med_id</th><th>dosage</th><th>prescription_date</th><th>status</th></tr><tr><td>RX001</td><td>P001</td><td>  D101  </td><td>MED003</td><td>10mg</td><td>2024-01-10</td><td>ACTIVE</td></tr><tr><td>RX002</td><td>p002</td><td>d102</td><td>med002</td><td>500 mg</td><td>10/01/2024</td><td>active</td></tr><tr><td>RX003</td><td>P003</td><td>D101</td><td>MED001</td><td>NULL</td><td>2024/01/12</td><td>Completed</td></tr><tr><td>RX004</td><td>P004</td><td>D103</td><td>med999</td><td>250mg</td><td>15-01-2024</td><td>ACTIVE</td></tr></table><p><strong>Table 4: doctors</strong></p><table><tr><th>doctor_id</th><th>doctor_name</th><th>specialization</th><th>license_status</th></tr><tr><td>D101</td><td>dr. emily chen</td><td>Cardiology</td><td>ACTIVE</td></tr><tr><td>d102</td><td>DR. MICHAEL BROWN</td><td>  Endocrinology  </td><td>active</td></tr><tr><td>D103</td><td>  Sarah Davis  </td><td>general medicine</td><td>ACTIVE</td></tr><tr><td>D104</td><td>james wilson</td><td>Orthopedics</td><td>SUSPENDED</td></tr></table><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📋 Requirements</h2><p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 20px;">Build hospital management system to track medications, validate prescriptions, detect risks.</p><div class="requirement-box"><strong>🧹 Data Cleaning:</strong><ul><li>Standardize IDs: uppercase, trim</li><li>Clean names: proper case, trim</li><li>Standardize dates: YYYY-MM-DD</li><li>Clean diagnosis: proper case</li><li>Standardize status: lowercase</li><li>Handle NULL discharge (still admitted)</li></ul></div><div class="requirement-box"><strong>🔗 JOINs & Enrichment:</strong><ul><li>JOIN prescriptions → patients</li><li>JOIN prescriptions → medications</li><li>JOIN prescriptions → doctors</li><li>Detect orphan prescriptions</li><li>Calculate patient age</li><li>Calculate length of stay</li></ul></div><div class="requirement-box"><strong>⚠️ Risk Detection:</strong><ul><li>Flag HIGH risk medications</li><li>Flag missing dosage</li><li>Flag suspended doctor prescriptions</li><li>Calculate risk score (0-100)</li><li>Categorize: Low/Medium/High</li></ul></div><p style="margin-top: 20px; font-size: 16px; color: #047857; font-weight: bold;">💡 TRIM, UPPER, INITCAP, STR_TO_DATE, CASE, JOINs, TIMESTAMPDIFF!</p><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>💡 Hints</h2><div class="hint-box"><strong>Step 1: ID Standardization</strong><ul><li>UPPER(TRIM(patient_id))</li><li>"  P001  " → "P001"</li><li>COALESCE for NULL IDs</li></ul></div><div class="hint-box"><strong>Step 2: Name Proper Case</strong><ul><li>INITCAP(TRIM(full_name))</li><li>"john smith" → "John Smith"</li></ul></div><div class="hint-box"><strong>Step 3: Date Standardization</strong><ul><li>CASE + STR_TO_DATE</li><li>Age: TIMESTAMPDIFF(YEAR, dob, CURDATE())</li><li>Stay: DATEDIFF(discharge, admission)</li></ul></div><div class="hint-box"><strong>Step 4: Multi-Table JOINs</strong><ul><li>LEFT JOIN to keep all prescriptions</li><li>IS NULL to flag orphans</li></ul></div><div class="hint-box"><strong>Step 5: Risk Score</strong><ul><li>Start 0, add points</li><li>HIGH med: +40</li><li>No dosage: +25</li><li>Suspended doctor: +20</li><li>Orphan med: +15</li></ul></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>✅ Solution Part 1</h2><div class="code-block">WITH cleaned_patients AS (
+  SELECT 
+    UPPER(TRIM(patient_id)) AS clean_patient_id,
+    INITCAP(TRIM(full_name)) AS clean_name,
+    CASE
+      WHEN date_of_birth LIKE '__/__/____'
+      THEN STR_TO_DATE(date_of_birth, '%d/%m/%Y')
+      WHEN date_of_birth LIKE '__-__-____'
+      THEN STR_TO_DATE(date_of_birth, '%d-%m-%Y')
+      WHEN date_of_birth LIKE '____/__/__'
+      THEN STR_TO_DATE(date_of_birth, '%Y/%m/%d')
+      ELSE DATE(date_of_birth)
+    END AS clean_dob,
+    CASE
+      WHEN admission_date LIKE '____-__-__ __:__:__'
+      THEN DATE(admission_date)
+      WHEN admission_date LIKE '__/__/____ __:__'
+      THEN STR_TO_DATE(admission_date, '%d/%m/%Y')
+      WHEN admission_date LIKE '____/__/__ __:__'
+      THEN STR_TO_DATE(admission_date, '%Y/%m/%d')
+      ELSE DATE(admission_date)
+    END AS clean_admission,
+    CASE
+      WHEN discharge_date IS NULL THEN NULL
+      ELSE DATE(discharge_date)
+    END AS clean_discharge,
+    INITCAP(TRIM(diagnosis)) AS clean_diagnosis
+  FROM patient_records
+),
+cleaned_prescriptions AS (
+  SELECT 
+    prescription_id,
+    UPPER(TRIM(COALESCE(patient_id, 'UNKNOWN'))) AS clean_patient_id,
+    UPPER(TRIM(doctor_id)) AS clean_doctor_id,
+    UPPER(TRIM(med_id)) AS clean_med_id,
+    COALESCE(TRIM(dosage), 'NOT SPECIFIED') AS clean_dosage,
+    CASE
+      WHEN prescription_date LIKE '____-__-__'
+      THEN DATE(prescription_date)
+      WHEN prescription_date LIKE '__/__/____'
+      THEN STR_TO_DATE(prescription_date, '%d/%m/%Y')
+      WHEN prescription_date LIKE '__-__-____'
+      THEN STR_TO_DATE(prescription_date, '%d-%m-%Y')
+      ELSE DATE(prescription_date)
+    END AS clean_rx_date,
+    LOWER(TRIM(status)) AS clean_status
+  FROM prescriptions
+),
+cleaned_doctors AS (
+  SELECT 
+    UPPER(TRIM(doctor_id)) AS clean_doctor_id,
+    INITCAP(TRIM(doctor_name)) AS clean_name,
+    INITCAP(TRIM(specialization)) AS clean_spec,
+    UPPER(TRIM(license_status)) AS clean_license
+  FROM doctors
+)</div><p style="text-align: center; font-size: 24px; color: #667eea; margin-top: 20px;">⬇️ Continues</p><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>✅ Solution Part 2</h2><div class="code-block">SELECT 
+  cp.prescription_id,
+  cp.clean_patient_id,
+  pt.clean_name AS patient_name,
+  TIMESTAMPDIFF(YEAR, pt.clean_dob, CURDATE()) AS patient_age,
+  pt.clean_diagnosis,
+  cp.clean_doctor_id,
+  d.clean_name AS doctor_name,
+  d.clean_spec AS specialization,
+  d.clean_license AS doctor_status,
+  cp.clean_med_id,
+  m.medication_name,
+  m.category AS med_category,
+  COALESCE(m.risk_level, 'UNKNOWN') AS med_risk,
+  cp.clean_dosage,
+  cp.clean_rx_date,
+  cp.clean_status,
+  CASE WHEN pt.clean_discharge IS NULL THEN 'Still Admitted'
+    ELSE CONCAT(DATEDIFF(pt.clean_discharge, pt.clean_admission), ' days')
+  END AS length_of_stay,
+  -- Risk Flags
+  CASE WHEN m.risk_level = 'HIGH' THEN 1 ELSE 0 END AS flag_high_risk_med,
+  CASE WHEN cp.clean_dosage = 'NOT SPECIFIED' THEN 1 ELSE 0 END AS flag_no_dosage,
+  CASE WHEN d.clean_license = 'SUSPENDED' THEN 1 ELSE 0 END AS flag_suspended_doctor,
+  CASE WHEN m.med_id IS NULL THEN 1 ELSE 0 END AS flag_orphan_med,
+  CASE WHEN pt.clean_patient_id IS NULL THEN 1 ELSE 0 END AS flag_orphan_patient,
+  -- Risk Score
+  (CASE WHEN m.risk_level = 'HIGH' THEN 40 ELSE 0 END +
+   CASE WHEN cp.clean_dosage = 'NOT SPECIFIED' THEN 25 ELSE 0 END +
+   CASE WHEN d.clean_license = 'SUSPENDED' THEN 20 ELSE 0 END +
+   CASE WHEN m.med_id IS NULL THEN 15 ELSE 0 END +
+   CASE WHEN pt.clean_patient_id IS NULL THEN 10 ELSE 0 END
+  ) AS prescription_risk_score,
+  -- Risk Category
+  CASE 
+    WHEN (CASE WHEN m.risk_level = 'HIGH' THEN 40 ELSE 0 END +
+          CASE WHEN cp.clean_dosage = 'NOT SPECIFIED' THEN 25 ELSE 0 END +
+          CASE WHEN d.clean_license = 'SUSPENDED' THEN 20 ELSE 0 END +
+          CASE WHEN m.med_id IS NULL THEN 15 ELSE 0 END +
+          CASE WHEN pt.clean_patient_id IS NULL THEN 10 ELSE 0 END) >= 61
+    THEN 'High Risk'
+    WHEN (CASE WHEN m.risk_level = 'HIGH' THEN 40 ELSE 0 END +
+          CASE WHEN cp.clean_dosage = 'NOT SPECIFIED' THEN 25 ELSE 0 END +
+          CASE WHEN d.clean_license = 'SUSPENDED' THEN 20 ELSE 0 END +
+          CASE WHEN m.med_id IS NULL THEN 15 ELSE 0 END +
+          CASE WHEN pt.clean_patient_id IS NULL THEN 10 ELSE 0 END) >= 31
+    THEN 'Medium Risk'
+    ELSE 'Low Risk'
+  END AS risk_category
+FROM cleaned_prescriptions cp
+LEFT JOIN cleaned_patients pt ON cp.clean_patient_id = pt.clean_patient_id
+LEFT JOIN medications m ON cp.clean_med_id = m.med_id
+LEFT JOIN cleaned_doctors d ON cp.clean_doctor_id = d.clean_doctor_id
+ORDER BY prescription_risk_score DESC;</div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 Data Cleaning Part 1</h2><div class="solution-box"><strong>ID Standardization</strong><div class="code-block">UPPER(TRIM(patient_id))</div><p>"  P001  " → "P001"</p><p>"p002" → "P002"</p><p>Critical for JOINs!</p></div><div class="solution-box"><strong>Name Proper Case</strong><div class="code-block">INITCAP(TRIM(full_name))</div><p>"john smith" → "John Smith"</p><p>"SARAH JONES" → "Sarah Jones"</p></div><div class="solution-box"><strong>Date Standardization</strong><div class="code-block">CASE
+  WHEN date_of_birth LIKE '__/__/____'
+  THEN STR_TO_DATE(date_of_birth, '%d/%m/%Y')
+  WHEN date_of_birth LIKE '__-__-____'
+  THEN STR_TO_DATE(date_of_birth, '%d-%m-%Y')
+  ...
+END</div><p>Handles: 15/05/1985, 22-07-1995, 1990-08-22</p><p>All → YYYY-MM-DD</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 Data Cleaning Part 2</h2><div class="solution-box"><strong>Dosage Handling</strong><div class="code-block">COALESCE(TRIM(dosage), 'NOT SPECIFIED')</div><p>NULL → "NOT SPECIFIED"</p><p>Flags incomplete prescriptions</p></div><div class="solution-box"><strong>NULL Discharge Dates</strong><div class="code-block">CASE WHEN discharge_date IS NULL THEN NULL
+  ELSE DATE(discharge_date)
+END</div><p>NULL = patient still admitted</p><p>Used for length of stay calculation</p></div><div class="solution-box"><strong>Status Standardization</strong><div class="code-block">LOWER(TRIM(status))</div><p>"ACTIVE" → "active"</p><p>"Completed" → "completed"</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 JOINs & Calculations</h2><div class="solution-box"><strong>Multi-Table LEFT JOINs</strong><div class="code-block">FROM cleaned_prescriptions cp
+LEFT JOIN cleaned_patients pt 
+  ON cp.clean_patient_id = pt.clean_patient_id
+LEFT JOIN medications m 
+  ON cp.clean_med_id = m.med_id
+LEFT JOIN cleaned_doctors d 
+  ON cp.clean_doctor_id = d.clean_doctor_id</div><p>LEFT JOIN keeps all prescriptions</p><p>Detects orphan records with IS NULL</p></div><div class="solution-box"><strong>Age Calculation</strong><div class="code-block">TIMESTAMPDIFF(YEAR, pt.clean_dob, CURDATE())</div><p>Calculates years between DOB and today</p><p>Example: DOB 1985-05-15 → Age 38</p></div><div class="solution-box"><strong>Length of Stay</strong><div class="code-block">CASE WHEN pt.clean_discharge IS NULL 
+  THEN 'Still Admitted'
+ELSE CONCAT(
+  DATEDIFF(pt.clean_discharge, pt.clean_admission), 
+  ' days')
+END</div><p>Admission 2024-01-10, Discharge 2024-01-15 → "5 days"</p><p>NULL discharge → "Still Admitted"</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 Risk Scoring System</h2><div class="solution-box"><strong>Risk Score Calculation</strong><div class="code-block">(CASE WHEN risk_level = 'HIGH' THEN 40 ELSE 0 END +
+ CASE WHEN dosage = 'NOT SPECIFIED' THEN 25 ELSE 0 END +
+ CASE WHEN license = 'SUSPENDED' THEN 20 ELSE 0 END +
+ CASE WHEN med IS NULL THEN 15 ELSE 0 END +
+ CASE WHEN patient IS NULL THEN 10 ELSE 0 END
+) AS prescription_risk_score</div><p><strong>Points:</strong></p><p>HIGH risk medication: +40</p><p>Missing dosage: +25</p><p>Suspended doctor: +20</p><p>Orphan medication: +15</p><p>No patient record: +10</p></div><div class="solution-box"><strong>Risk Categories</strong><div class="code-block">CASE 
+  WHEN score >= 61 THEN 'High Risk'
+  WHEN score >= 31 THEN 'Medium Risk'
+  ELSE 'Low Risk'
+END</div><p>High (61-100): Urgent review</p><p>Medium (31-60): Flag for review</p><p>Low (0-30): Normal</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 Real-World Healthcare</h2><div class="solution-box"><strong>Why This Matters</strong><p>Healthcare systems require:</p><p>✅ Prescription validation</p><p>✅ Medication safety checks</p><p>✅ Doctor credential verification</p><p>✅ Patient record accuracy</p><p>✅ Risk flagging for compliance</p><p>This pipeline prevents medication errors!</p></div><div class="solution-box"><strong>Production Enhancements</strong><p>✅ Drug interaction checking</p><p>✅ Allergy cross-reference</p><p>✅ Dosage range validation</p><p>✅ Real-time alerts for high-risk</p><p>✅ Audit trails for compliance</p></div><div class="solution-box"><strong>CTE Benefits</strong><p><strong>cleaned_patients:</strong> Patient data</p><p><strong>cleaned_prescriptions:</strong> Prescription data</p><p><strong>cleaned_doctors:</strong> Doctor data</p><p><strong>Main Query:</strong> JOIN + risk scoring</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page"><h2>📖 Skills Summary</h2><div class="solution-box"><strong>✅ String Functions</strong><p>TRIM, UPPER, INITCAP, COALESCE</p></div><div class="solution-box"><strong>✅ Date Functions</strong><p>STR_TO_DATE, DATE, TIMESTAMPDIFF, DATEDIFF, CURDATE</p></div><div class="solution-box"><strong>✅ Complex CASE</strong><p>Multi-format date detection, risk scoring</p></div><div class="solution-box"><strong>✅ Multi-Table JOINs</strong><p>LEFT JOIN, orphan detection, NULL handling</p></div><div class="solution-box"><strong>✅ CTEs</strong><p>3 cleaning CTEs + main query</p></div><div class="solution-box"><strong>✅ Calculations</strong><p>Age, length of stay, risk scores</p></div><div class="solution-box"><strong>Real Healthcare Data Engineering! 🏥</strong><p>Track medications, validate prescriptions, detect risks - exactly what hospitals need!</p></div><div class="signature">Created by: Rahul Kanche</div></div>
+        <div class="page final-page"><div style="width: 100%; display: flex; flex-direction: column; align-items: center;"><h2 style="color: #667eea; font-size: 40px; border: none; margin-bottom: 20px;">🎉 Day 14 Complete!</h2><p style="font-size: 22px; color: #764ba2; font-weight: bold; margin: 25px 0;">Congratulations!</p><p style="font-size: 16px; max-width: 600px; text-align: center;">You've mastered hospital data management with complex JOINs, date calculations, and prescription risk scoring! This is real-world healthcare data engineering!</p><div class="link-box" style="width: 75%; max-width: 550px; margin-top: 40px;"><h3>🔗 Connect & Stay Updated</h3><p style="color: #1e40af; font-size: 14px; margin: 10px 0;">Copy these links to connect:</p><div class="url-text">linkedin.com/in/rahulkanche</div><div class="url-text">github.com/rahulkanche/100-days-sql-data</div><p style="color: #6b7280; font-size: 13px; margin-top: 12px;">Follow my SQL journey & access all 100 challenges!</p></div><div class="social-box" style="width: 70%; margin-top: 30px; max-width: 500px;"><h3 style="color: white; font-size: 26px; margin-bottom: 15px;">📅 Stay Connected</h3><p style="color: white; font-size: 18px; margin: 12px 0;">Day 15 coming tomorrow!</p><p style="color: white; font-size: 16px;">Another challenging SQL problem awaits</p></div><div style="margin-top: 40px; padding: 25px; background: #f0fdf4; border-radius: 15px; width: 70%; max-width: 500px;"><h3 style="color: #047857; font-size: 22px; margin-bottom: 12px; text-align: center;">💪 Keep Practicing!</h3><p style="color: #065f46; font-size: 15px; text-align: center;">Master healthcare data pipelines<br>Build prescription tracking systems<br>Validate medical records with SQL</p></div><p style="margin-top: 50px; font-size: 18px; color: #667eea; font-weight: bold; text-align: center;">Follow the 100 Days SQL Challenge<br>Master SQL one problem at a time!</p><p style="margin-top: 40px; font-size: 16px; color: #888; text-align: center; font-style: italic;">Rahul Kanche — exploring data, decoding clarity!</p></div><div class="signature">Created by: Rahul Kanche</div></div></div>
+    <script>
+        async function generatePDF() {
+            const btn = document.querySelector('.download-btn');
+            const status = document.getElementById('status');
+            btn.disabled = true;
+            btn.textContent = 'Generating PDF...';
+            status.textContent = 'Please wait...';
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageElements = document.querySelectorAll('.page');
+                for (let i = 0; i < pageElements.length; i++) {
+                    const canvas = await html2canvas(pageElements[i], {
+                        scale: 1.0,
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: '#ffffff'
+                    });
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = 210;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    if (i > 0) pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    status.textContent = `Processing page ${i + 1} of ${pageElements.length}...`;
+                }
+                pdf.save('100_Days_SQL_Day_14.pdf');
+                btn.disabled = false;
+                btn.textContent = '⬇️ Download Day 14 Challenge';
+                status.textContent = '✅ PDF downloaded successfully!';
+                status.style.color = '#10b981';
+            } catch (error) {
+                btn.disabled = false;
+                btn.textContent = '⬇️ Download Day 14 Challenge';
+                status.textContent = '❌ Error. Please try again.';
+                status.style.color = '#ef4444';
+            }
+        }
+    </script>
+</body>
+</html>
