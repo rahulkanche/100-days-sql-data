@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12 - Download Practice Data</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .intro {
+            background: #f0f9ff;
+            border-left: 5px solid #3b82f6;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+        .intro h2 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        .table-section {
+            margin-bottom: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .table-header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-header h3 {
+            font-size: 24px;
+        }
+        .download-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .table-preview {
+            padding: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        table th {
+            background: #f3f4f6;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+            white-space: nowrap;
+        }
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table tr:hover {
+            background: #f9fafb;
+        }
+        .info-box {
+            background: #fef3c7;
+            border-left: 5px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        .info-box h3 {
+            color: #d97706;
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f9fafb;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Day 12: Data Cleaning Challenge</h1>
+            <p>Download Practice Data - E-Commerce Messy Dataset</p>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h2>🎯 About This Dataset</h2>
+                <p>This is the messy e-commerce data used in Day 12 SQL Challenge. Download these CSV files, import into your SQL database, and practice your data cleaning skills!</p>
+            </div>
+
+            <!-- Table 1: raw_transactions -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>📋 Table 1: raw_transactions</h3>
+                    <button class="download-btn" onclick="downloadCSV('raw_transactions')">⬇️ Download CSV</button>
+                </div>
+                <div class="table-preview">
+                    <table id="raw_transactions">
+                        <thead>
+                            <tr>
+                                <th>trans_id</th>
+                                <th>customer_email</th>
+                                <th>product_sku</th>
+                                <th>amount</th>
+                                <th>trans_date</th>
+                                <th>status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>TX001</td><td>  JOHN@EMAIL.COM  </td><td>SKU-123-A</td><td>$125.50</td><td>2024-01-15 14:30:00</td><td>completed</td></tr>
+                            <tr><td>TX002</td><td>sarah.j@invalid</td><td>sku-456-b</td><td>45</td><td>15/01/2024</td><td>PENDING</td></tr>
+                            <tr><td>TX003</td><td>mike@shop.com</td><td>SKU-789-C</td><td>$0</td><td>2024-01-20</td><td>Cancelled</td></tr>
+                            <tr><td>TX004</td><td>emma@store.io</td><td>sku-123-a</td><td>125.50</td><td>2024/01/25 10:15</td><td>COMPLETED</td></tr>
+                            <tr><td>TX005</td><td>LISA@EMAIL.COM</td><td>SKU-999</td><td>NULL</td><td>2024-02-01</td><td>failed</td></tr>
+                            <tr><td>TX006</td><td>bob_jones</td><td>SKU-456-B</td><td>$45.00</td><td>01-02-2024</td><td>completed</td></tr>
+                            <tr><td>TX007</td><td>anna@site.com</td><td>sku-789-c</td><td>299.99</td><td>2024-02-10 16:45:30</td><td>Completed</td></tr>
+                            <tr><td>TX008</td><td>  DAVID@MAIL.NET  </td><td>SKU-123-A</td><td>$-50</td><td>2024-02-15</td><td>refund</td></tr>
+                            <tr><td>TX009</td><td>grace@email.com</td><td>sku-999</td><td>750.00</td><td>2024-02-20T14:30</td><td>COMPLETED</td></tr>
+                            <tr><td>TX010</td><td>henry@shop.com</td><td>SKU-456-b</td><td>$45.0</td><td>2024/02/25</td><td>pending</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table 2: product_catalog -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>📦 Table 2: product_catalog</h3>
+                    <button class="download-btn" onclick="downloadCSV('product_catalog')">⬇️ Download CSV</button>
+                </div>
+                <div class="table-preview">
+                    <table id="product_catalog">
+                        <thead>
+                            <tr>
+                                <th>sku</th>
+                                <th>product_name</th>
+                                <th>category</th>
+                                <th>price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>SKU-123-A</td><td>Wireless Mouse</td><td>Electronics</td><td>125.50</td></tr>
+                            <tr><td>SKU-456-B</td><td>USB Cable</td><td>Accessories</td><td>45.00</td></tr>
+                            <tr><td>SKU-789-C</td><td>Laptop Stand</td><td>Furniture</td><td>299.99</td></tr>
+                            <tr><td>SKU-999</td><td>Premium Headset</td><td>Electronics</td><td>750.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table 3: customer_profiles -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>👥 Table 3: customer_profiles</h3>
+                    <button class="download-btn" onclick="downloadCSV('customer_profiles')">⬇️ Download CSV</button>
+                </div>
+                <div class="table-preview">
+                    <table id="customer_profiles">
+                        <thead>
+                            <tr>
+                                <th>email</th>
+                                <th>full_name</th>
+                                <th>join_date</th>
+                                <th>country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>john@email.com</td><td>john smith</td><td>2023-05-10</td><td>  USA  </td></tr>
+                            <tr><td>SARAH.J@INVALID</td><td>Sarah Jones</td><td>05/10/2023</td><td>uk</td></tr>
+                            <tr><td>mike@shop.com</td><td>MIKE WILSON</td><td>2023-06-15</td><td>Canada</td></tr>
+                            <tr><td>emma@store.io</td><td>  Emma Brown  </td><td>2023/07/20</td><td>USA</td></tr>
+                            <tr><td>LISA@EMAIL.COM</td><td>lisa garcia</td><td>20-08-2023</td><td>spain</td></tr>
+                            <tr><td>anna@site.com</td><td>Anna Martinez</td><td>2023-09-01</td><td>MEXICO</td></tr>
+                            <tr><td>DAVID@MAIL.NET</td><td>david LEE</td><td>10/09/2023</td><td>usa</td></tr>
+                            <tr><td>grace@email.com</td><td>Grace Taylor</td><td>2023-10-15</td><td>UK</td></tr>
+                            <tr><td>henry@shop.com</td><td>HENRY ZHANG</td><td>2023/11/20</td><td>canada</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>💡 How to Use This Data</h3>
+                <p><strong>Step 1:</strong> Download all 3 CSV files using the buttons above</p>
+                <p><strong>Step 2:</strong> Import them into your SQL database (MySQL, PostgreSQL, SQL Server, etc.)</p>
+                <p><strong>Step 3:</strong> Practice the Day 12 data cleaning challenge!</p>
+                <p><strong>Step 4:</strong> Share your solution on LinkedIn with #100DaysSQLChallenge</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Day 12: Complete Data Cleaning Pipeline</strong></p>
+            <p>Created by Rahul Kanche - 100 Days SQL Challenge</p>
+        </div>
+    </div>
+
+    <script>
+        function downloadCSV(tableName) {
+            const table = document.getElementById(tableName);
+            let csv = [];
+            
+            // Get headers
+            const headers = [];
+            table.querySelectorAll('thead th').forEach(th => {
+                headers.push(th.textContent);
+            });
+            csv.push(headers.join(','));
+            
+            // Get rows
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const row = [];
+                tr.querySelectorAll('td').forEach(td => {
+                    let cell = td.textContent;
+                    // Escape commas and quotes
+                    if (cell.includes(',') || cell.includes('"') || cell.includes('\n')) {
+                        cell = '"' + cell.replace(/"/g, '""') + '"';
+                    }
+                    row.push(cell);
+                });
+                csv.push(row.join(','));
+            });
+            
+            // Create download
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = tableName + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
