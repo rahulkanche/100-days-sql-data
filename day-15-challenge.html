@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 15 - Government Welfare & Subsidy Management</title>
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: Arial, sans-serif;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);min-height: 100vh;padding: 50px 20px;}
+        .container {max-width: 900px;margin: 0 auto;}
+        .section {background: white;padding: 50px;border-radius: 15px;margin-bottom: 30px;box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
+        .cover-section {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;text-align: center;padding: 80px 50px;}
+        .cover-section h1 {font-size: 48px;margin-bottom: 20px;}
+        .day-badge {font-size: 32px;background: rgba(255,255,255,0.2);padding: 15px 40px;border-radius: 50px;display: inline-block;margin: 20px 0;font-weight: bold;}
+        .cover-section p {font-size: 20px;line-height: 1.8;margin-top: 30px;}
+        h2 {color: #667eea;font-size: 32px;margin-bottom: 25px;border-bottom: 3px solid #667eea;padding-bottom: 12px;}
+        h3 {color: #764ba2;font-size: 22px;margin: 25px 0 15px 0;}
+        p {line-height: 1.8;font-size: 16px;color: #333;margin-bottom: 15px;}
+        table {width: 100%;border-collapse: collapse;margin: 20px 0;font-size: 14px;}
+        table th {background: #667eea;color: white;padding: 12px;text-align: left;}
+        table td {border: 1px solid #e2e8f0;padding: 12px;}
+        table tr:nth-child(even) {background: #f7fafc;}
+        .link-box {background: #dbeafe;border: 3px solid #3b82f6;padding: 25px;border-radius: 12px;text-align: center;margin: 25px 0;}
+        .link-box h3 {color: #1e40af;margin-bottom: 15px;}
+        .download-btn {display: inline-block;background: #3b82f6;color: white;padding: 15px 35px;border-radius: 8px;text-decoration: none;font-weight: bold;font-size: 16px;margin: 10px 0;transition: background 0.3s;}
+        .download-btn:hover {background: #2563eb;}
+        .requirement-box {background: #fef3c7;border-left: 5px solid #f59e0b;padding: 20px;margin: 20px 0;border-radius: 8px;}
+        .requirement-box strong {color: #d97706;font-size: 18px;display: block;margin-bottom: 12px;}
+        ul {margin-left: 25px;line-height: 1.8;}
+        ul li {margin: 10px 0;font-size: 15px;}
+        .final-section {text-align: center;}
+        .social-buttons {margin: 30px 0;}
+        .social-btn {display: inline-block;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;padding: 15px 40px;border-radius: 8px;text-decoration: none;font-weight: bold;margin: 10px;font-size: 16px;transition: transform 0.3s;}
+        .social-btn:hover {transform: translateY(-3px);}
+        .practice-box {background: #f0fdf4;border: 2px solid #10b981;padding: 30px;border-radius: 12px;margin: 30px 0;}
+        .practice-box h3 {color: #047857;text-align: center;font-size: 24px;margin-bottom: 15px;}
+        .practice-box p {color: #065f46;text-align: center;font-size: 16px;}
+        @media (max-width: 768px) {
+            .section {padding: 30px 25px;}
+            .cover-section {padding: 60px 30px;}
+            .cover-section h1 {font-size: 36px;}
+            h2 {font-size: 28px;}
+            .social-btn {display: block;margin: 10px 0;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section cover-section">
+            <h1>📚 100 DAYS SQL<br>CODING CHALLENGE</h1>
+            <div class="day-badge">DAY 15</div>
+            <p style="font-size: 24px; margin-top: 30px;">Government Welfare & Subsidy Management</p>
+            <p>✨ Master SQL One Problem at a Time ✨</p>
+        </div>
+
+        <div class="section">
+            <div class="link-box">
+                <h3>📊 Download Practice Dataset</h3>
+                <p style="color: #1e40af; font-size: 16px; margin: 15px 0;">Get all CSV files to practice this challenge:</p>
+                <a href="day-15-data.html" class="download-btn">📥 Download Day 15 Data</a>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">4 tables: citizens, income_brackets, subsidies, subsidy_applications</p>
+            </div>
+
+            <h2>🏛️ Government Welfare System</h2>
+            <p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Build a system to validate government subsidies, detect fraud, and manage citizen benefits.</p>
+
+            <h3>Table 1: citizens (5 of 25 rows)</h3>
+            <table>
+                <tr>
+                    <th>citizen_id</th>
+                    <th>full_name</th>
+                    <th>date_of_birth</th>
+                    <th>address</th>
+                    <th>profession</th>
+                    <th>annual_income</th>
+                    <th>family_size</th>
+                    <th>disability_status</th>
+                </tr>
+                <tr>
+                    <td>  C001  </td>
+                    <td>rajesh kumar</td>
+                    <td>15/03/1980</td>
+                    <td>  mumbai, maharashtra  </td>
+                    <td>FARMER</td>
+                    <td>45000</td>
+                    <td>5</td>
+                    <td>NO</td>
+                </tr>
+                <tr>
+                    <td>c002</td>
+                    <td>PRIYA SHARMA</td>
+                    <td>1985-07-22</td>
+                    <td>Delhi</td>
+                    <td>teacher</td>
+                    <td>NULL</td>
+                    <td>3</td>
+                    <td>yes</td>
+                </tr>
+                <tr>
+                    <td>C003</td>
+                    <td>  amit patel  </td>
+                    <td>10-05-1992</td>
+                    <td>ahmedabad, GUJARAT</td>
+                    <td>Engineer</td>
+                    <td>850000</td>
+                    <td>2</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>C004</td>
+                    <td>sunita devi</td>
+                    <td>1975/12/08</td>
+                    <td>patna,bihar</td>
+                    <td>NULL</td>
+                    <td>25000</td>
+                    <td>7</td>
+                    <td>YES</td>
+                </tr>
+                <tr>
+                    <td>c005</td>
+                    <td>Mohammed Ali</td>
+                    <td>22-11-1988</td>
+                    <td>  Hyderabad, Telangana  </td>
+                    <td>daily wage worker</td>
+                    <td>72000</td>
+                    <td>4</td>
+                    <td>no</td>
+                </tr>
+            </table>
+            <p style="font-size: 14px; color: #6b7280; font-style: italic;">...20 more rows in the download!</p>
+
+            <h3>Table 2: income_brackets</h3>
+            <table>
+                <tr>
+                    <th>bracket_id</th>
+                    <th>bracket_name</th>
+                    <th>min_income</th>
+                    <th>max_income</th>
+                    <th>priority_level</th>
+                </tr>
+                <tr><td>B1</td><td>Below Poverty Line</td><td>0</td><td>50000</td><td>HIGH</td></tr>
+                <tr><td>B2</td><td>Low Income</td><td>50001</td><td>150000</td><td>MEDIUM</td></tr>
+                <tr><td>B3</td><td>Middle Income</td><td>150001</td><td>500000</td><td>LOW</td></tr>
+                <tr><td>B4</td><td>High Income</td><td>500001</td><td>999999999</td><td>NONE</td></tr>
+            </table>
+
+            <h3>Table 3: subsidies</h3>
+            <table>
+                <tr>
+                    <th>subsidy_id</th>
+                    <th>scheme_name</th>
+                    <th>category</th>
+                    <th>amount</th>
+                    <th>min_family_size</th>
+                    <th>requires_disability</th>
+                    <th>max_income</th>
+                </tr>
+                <tr><td>S001</td><td>Ration Card Subsidy</td><td>Food Security</td><td>12000</td><td>1</td><td>NO</td><td>50000</td></tr>
+                <tr><td>S002</td><td>Disability Pension</td><td>Social Welfare</td><td>24000</td><td>1</td><td>YES</td><td>150000</td></tr>
+                <tr><td>S003</td><td>Farmer Support Scheme</td><td>Agriculture</td><td>30000</td><td>3</td><td>NO</td><td>150000</td></tr>
+                <tr><td>S004</td><td>Education Grant</td><td>Education</td><td>15000</td><td>2</td><td>NO</td><td>200000</td></tr>
+                <tr><td>S005</td><td>Housing Subsidy</td><td>Housing</td><td>50000</td><td>4</td><td>NO</td><td>100000</td></tr>
+            </table>
+
+            <h3>Table 4: subsidy_applications</h3>
+            <table>
+                <tr>
+                    <th>application_id</th>
+                    <th>citizen_id</th>
+                    <th>subsidy_id</th>
+                    <th>application_date</th>
+                    <th>status</th>
+                </tr>
+                <tr><td>APP001</td><td>C001</td><td>  S001  </td><td>2024-01-15</td><td>APPROVED</td></tr>
+                <tr><td>APP002</td><td>c002</td><td>s002</td><td>15/01/2024</td><td>pending</td></tr>
+                <tr><td>APP003</td><td>C003</td><td>S001</td><td>2024/01/20</td><td>REJECTED</td></tr>
+                <tr><td>APP004</td><td>C004</td><td>s005</td><td>20-01-2024</td><td>Approved</td></tr>
+                <tr><td>APP005</td><td>c001</td><td>S003</td><td>2024-01-22</td><td>APPROVED</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📋 Your Challenge</h2>
+            <p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Build a government welfare management system with data cleaning, eligibility validation, and fraud detection.</p>
+
+            <div class="requirement-box">
+                <strong>🧹 Data Cleaning:</strong>
+                <ul>
+                    <li>Standardize all IDs (citizen_id, subsidy_id) - uppercase and trim</li>
+                    <li>Clean names and addresses - proper case formatting</li>
+                    <li>Standardize all date formats to YYYY-MM-DD</li>
+                    <li>Handle NULL income values (use median estimate)</li>
+                    <li>Standardize profession names - proper case</li>
+                    <li>Standardize disability status - YES/NO uppercase</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>🔗 JOINs & Data Enrichment:</strong>
+                <ul>
+                    <li>JOIN citizens to income_brackets using BETWEEN</li>
+                    <li>JOIN applications to citizens</li>
+                    <li>JOIN applications to subsidies</li>
+                    <li>Detect orphan applications (invalid citizen_id or subsidy_id)</li>
+                    <li>Calculate citizen age from date of birth</li>
+                    <li>Assign income bracket and priority level to each citizen</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>⚠️ Eligibility Validation & Fraud Detection:</strong>
+                <ul>
+                    <li>Validate income eligibility (citizen income ≤ subsidy max income)</li>
+                    <li>Validate family size requirement (family size ≥ minimum required)</li>
+                    <li>Validate disability requirement (if required, citizen must have it)</li>
+                    <li>Flag approved applications that don't meet eligibility criteria</li>
+                    <li>Calculate fraud risk score (0-145 points)</li>
+                    <li>Categorize risk level: High Risk (51+), Medium Risk (21-50), Low Risk (0-20)</li>
+                    <li>Determine final eligibility status: Eligible or Ineligible</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 17px; color: #047857; font-weight: bold;">💡 Key SQL Concepts: BETWEEN, CASE WHEN, COALESCE, LEFT JOIN, TIMESTAMPDIFF, CTEs, Complex Logic!</p>
+        </div>
+
+        <div class="section final-section">
+            <h2 style="border: none; font-size: 38px; margin-bottom: 20px;">🎯 Ready to Solve?</h2>
+            <p style="font-size: 18px; color: #666; margin-bottom: 30px;">Download the full challenge PDF with complete solution, explanations, and step-by-step hints!</p>
+
+            <div class="link-box">
+                <h3>🔗 Connect & Get Solutions</h3>
+                <p style="color: #1e40af; font-size: 16px; margin: 15px 0;">Follow for complete solutions and all 100 challenges:</p>
+                <div class="social-buttons">
+                    <a href="https://linkedin.com/in/rahulkanche" class="social-btn" target="_blank">💼 LinkedIn - Rahul Kanche</a>
+                    <a href="https://github.com/rahulkanche/100-days-sql-data" class="social-btn" target="_blank">💻 GitHub - 100 Days SQL</a>
+                </div>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">Complete solutions posted on LinkedIn • All data on GitHub</p>
+            </div>
+
+            <div class="practice-box">
+                <h3>💪 Keep Practicing!</h3>
+                <p style="line-height: 1.8;">Master government data pipelines<br>Build subsidy validation systems<br>Detect fraud with SQL<br><br><strong style="color: #047857; font-size: 18px;">Day 16 coming tomorrow!</strong></p>
+            </div>
+
+            <p style="font-size: 20px; color: #667eea; font-weight: bold; margin-top: 40px;">Follow the 100 Days SQL Challenge</p>
+            <p style="font-size: 18px; color: #764ba2; margin-top: 10px;">Master SQL one problem at a time!</p>
+            <p style="font-size: 16px; color: #888; margin-top: 30px; font-style: italic;">Rahul Kanche — exploring data, decoding clarity!</p>
+        </div>
+    </div>
+</body>
+</html>
