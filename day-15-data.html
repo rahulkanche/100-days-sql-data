@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 15 - Data Download</title>
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: Arial, sans-serif;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);min-height: 100vh;padding: 40px 20px;}
+        .container {max-width: 1100px;margin: 0 auto;}
+        .hero {background: white;padding: 50px;border-radius: 15px;text-align: center;margin-bottom: 30px;box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
+        .hero h1 {color: #667eea;font-size: 42px;margin-bottom: 15px;}
+        .hero p {font-size: 18px;color: #666;line-height: 1.8;}
+        .topic-badges {margin: 20px 0;}
+        .badge {display: inline-block;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;padding: 8px 20px;border-radius: 20px;margin: 5px;font-size: 14px;font-weight: bold;}
+        .table-section {background: white;padding: 40px;border-radius: 15px;margin-bottom: 25px;box-shadow: 0 5px 20px rgba(0,0,0,0.1);}
+        .table-section h2 {color: #667eea;font-size: 28px;margin-bottom: 20px;}
+        .download-btn {background: #10b981;color: white;border: none;padding: 12px 30px;border-radius: 8px;font-size: 16px;font-weight: bold;cursor: pointer;transition: background 0.3s;}
+        .download-btn:hover {background: #059669;}
+        table {width: 100%;border-collapse: collapse;margin: 20px 0;font-size: 14px;}
+        table th {background: #667eea;color: white;padding: 12px;text-align: left;}
+        table td {border: 1px solid #e2e8f0;padding: 10px;}
+        table tr:nth-child(even) {background: #f7fafc;}
+        .instructions {background: #fef3c7;border-left: 5px solid #f59e0b;padding: 25px;border-radius: 8px;margin-top: 30px;}
+        .instructions h3 {color: #d97706;margin-bottom: 15px;font-size: 22px;}
+        .instructions code {background: #fff;padding: 3px 8px;border-radius: 4px;color: #d97706;font-size: 14px;}
+        .back-link {text-align: center;margin-top: 30px;}
+        .back-link a {color: white;font-size: 18px;text-decoration: none;background: rgba(255,255,255,0.2);padding: 12px 30px;border-radius: 8px;display: inline-block;transition: background 0.3s;}
+        .back-link a:hover {background: rgba(255,255,255,0.3);}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>📊 Day 15 - Data Download</h1>
+            <p style="font-size: 20px; color: #764ba2; font-weight: bold; margin: 15px 0;">Government Welfare & Subsidy Management</p>
+            <p>Download all 4 tables with complete messy data (25+ rows per table)</p>
+            <div class="topic-badges">
+                <span class="badge">Data Cleaning</span>
+                <span class="badge">BETWEEN Clause</span>
+                <span class="badge">Multi-Table JOINs</span>
+                <span class="badge">Fraud Detection</span>
+                <span class="badge">CTEs</span>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 1: citizens</h2>
+            <button class="download-btn" onclick="downloadCSV('citizens')">⬇️ Download citizens.csv</button>
+            <table id="citizens-table">
+                <tr>
+                    <th>citizen_id</th>
+                    <th>full_name</th>
+                    <th>date_of_birth</th>
+                    <th>address</th>
+                    <th>profession</th>
+                    <th>annual_income</th>
+                    <th>family_size</th>
+                    <th>disability_status</th>
+                </tr>
+                <tr><td>  C001  </td><td>rajesh kumar</td><td>15/03/1980</td><td>  mumbai, maharashtra  </td><td>FARMER</td><td>45000</td><td>5</td><td>NO</td></tr>
+                <tr><td>c002</td><td>PRIYA SHARMA</td><td>1985-07-22</td><td>Delhi</td><td>teacher</td><td>NULL</td><td>3</td><td>yes</td></tr>
+                <tr><td>C003</td><td>  amit patel  </td><td>10-05-1992</td><td>ahmedabad, GUJARAT</td><td>Engineer</td><td>850000</td><td>2</td><td>No</td></tr>
+                <tr><td>C004</td><td>sunita devi</td><td>1975/12/08</td><td>patna,bihar</td><td>NULL</td><td>25000</td><td>7</td><td>YES</td></tr>
+                <tr><td>c005</td><td>Mohammed Ali</td><td>22-11-1988</td><td>  Hyderabad, Telangana  </td><td>daily wage worker</td><td>72000</td><td>4</td><td>no</td></tr>
+                <tr><td>C006</td><td>LAKSHMI IYER</td><td>1990-05-15</td><td>chennai, Tamil Nadu</td><td>NULL</td><td>38000</td><td>6</td><td>YES</td></tr>
+                <tr><td>  c007</td><td>vikram singh  </td><td>18/08/1983</td><td>jaipur,Rajasthan</td><td>shopkeeper</td><td>95000</td><td>4</td><td>NO</td></tr>
+                <tr><td>C008</td><td>anita desai</td><td>25-02-1978</td><td>  pune, maharashtra  </td><td>NURSE</td><td>180000</td><td>3</td><td>no</td></tr>
+                <tr><td>c009</td><td>Ramesh Gupta</td><td>1988/09/12</td><td>Lucknow, Uttar Pradesh</td><td>driver</td><td>NULL</td><td>5</td><td>No</td></tr>
+                <tr><td>C010</td><td>  MEERA NAIR  </td><td>12-11-1995</td><td>  kochi, kerala  </td><td>NULL</td><td>42000</td><td>2</td><td>YES</td></tr>
+                <tr><td>c011</td><td>suresh yadav</td><td>30/06/1982</td><td>nagpur,maharashtra</td><td>FARMER</td><td>52000</td><td>8</td><td>no</td></tr>
+                <tr><td>C012</td><td>kavita SHAH</td><td>1987-04-20</td><td>Surat, Gujarat</td><td>tailor</td><td>48000</td><td>4</td><td>NO</td></tr>
+                <tr><td>  C013  </td><td>  ARUN KUMAR  </td><td>15-07-1980</td><td>Bangalore, Karnataka</td><td>software engineer</td><td>920000</td><td>3</td><td>No</td></tr>
+                <tr><td>c014</td><td>pooja verma</td><td>1992/10/25</td><td>  indore, madhya pradesh  </td><td>NULL</td><td>35000</td><td>5</td><td>yes</td></tr>
+                <tr><td>C015</td><td>Rajiv Mehta</td><td>08/12/1985</td><td>chandigarh</td><td>accountant</td><td>NULL</td><td>3</td><td>NO</td></tr>
+                <tr><td>c016</td><td>SITA RAM</td><td>1970-03-18</td><td>  varanasi, uttar pradesh  </td><td>priest</td><td>28000</td><td>6</td><td>YES</td></tr>
+                <tr><td>C017</td><td>  deepak joshi  </td><td>22-09-1989</td><td>dehradun,uttarakhand</td><td>teacher</td><td>125000</td><td>2</td><td>no</td></tr>
+                <tr><td>c018</td><td>anjali KAPOOR</td><td>1993/05/30</td><td>amritsar, Punjab</td><td>NULL</td><td>55000</td><td>4</td><td>No</td></tr>
+                <tr><td>C019</td><td>manoj TIWARI</td><td>10-01-1984</td><td>  gwalior, madhya pradesh  </td><td>daily wage worker</td><td>65000</td><td>7</td><td>YES</td></tr>
+                <tr><td>  c020</td><td>REKHA PILLAI</td><td>1991-08-14</td><td>trivandrum,kerala</td><td>nurse</td><td>NULL</td><td>3</td><td>no</td></tr>
+                <tr><td>C021</td><td>harish chandra</td><td>05/11/1979</td><td>Kanpur, Uttar Pradesh</td><td>shopkeeper</td><td>88000</td><td>5</td><td>NO</td></tr>
+                <tr><td>c022</td><td>  NISHA REDDY  </td><td>1986-12-22</td><td>  visakhapatnam, andhra pradesh  </td><td>FARMER</td><td>46000</td><td>6</td><td>yes</td></tr>
+                <tr><td>C023</td><td>prakash jain</td><td>18-04-1990</td><td>indore, Madhya Pradesh</td><td>engineer</td><td>NULL</td><td>2</td><td>No</td></tr>
+                <tr><td>c024</td><td>GEETA DEVI</td><td>1976/07/08</td><td>patna, bihar</td><td>NULL</td><td>22000</td><td>9</td><td>YES</td></tr>
+                <tr><td>C025</td><td>  anil sharma  </td><td>25/09/1988</td><td>  shimla, himachal pradesh  </td><td>driver</td><td>58000</td><td>4</td><td>no</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 2: income_brackets</h2>
+            <button class="download-btn" onclick="downloadCSV('income_brackets')">⬇️ Download income_brackets.csv</button>
+            <table id="income_brackets-table">
+                <tr>
+                    <th>bracket_id</th>
+                    <th>bracket_name</th>
+                    <th>min_income</th>
+                    <th>max_income</th>
+                    <th>priority_level</th>
+                </tr>
+                <tr><td>B1</td><td>Below Poverty Line</td><td>0</td><td>50000</td><td>HIGH</td></tr>
+                <tr><td>B2</td><td>Low Income</td><td>50001</td><td>150000</td><td>MEDIUM</td></tr>
+                <tr><td>B3</td><td>Middle Income</td><td>150001</td><td>500000</td><td>LOW</td></tr>
+                <tr><td>B4</td><td>High Income</td><td>500001</td><td>999999999</td><td>NONE</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 3: subsidies</h2>
+            <button class="download-btn" onclick="downloadCSV('subsidies')">⬇️ Download subsidies.csv</button>
+            <table id="subsidies-table">
+                <tr>
+                    <th>subsidy_id</th>
+                    <th>scheme_name</th>
+                    <th>category</th>
+                    <th>amount</th>
+                    <th>min_family_size</th>
+                    <th>requires_disability</th>
+                    <th>max_income</th>
+                </tr>
+                <tr><td>S001</td><td>Ration Card Subsidy</td><td>Food Security</td><td>12000</td><td>1</td><td>NO</td><td>50000</td></tr>
+                <tr><td>S002</td><td>Disability Pension</td><td>Social Welfare</td><td>24000</td><td>1</td><td>YES</td><td>150000</td></tr>
+                <tr><td>S003</td><td>Farmer Support Scheme</td><td>Agriculture</td><td>30000</td><td>3</td><td>NO</td><td>150000</td></tr>
+                <tr><td>S004</td><td>Education Grant</td><td>Education</td><td>15000</td><td>2</td><td>NO</td><td>200000</td></tr>
+                <tr><td>S005</td><td>Housing Subsidy</td><td>Housing</td><td>50000</td><td>4</td><td>NO</td><td>100000</td></tr>
+                <tr><td>S006</td><td>Senior Citizen Pension</td><td>Social Welfare</td><td>18000</td><td>1</td><td>NO</td><td>100000</td></tr>
+                <tr><td>S007</td><td>Skill Development Grant</td><td>Employment</td><td>20000</td><td>1</td><td>NO</td><td>150000</td></tr>
+                <tr><td>S008</td><td>Healthcare Subsidy</td><td>Health</td><td>25000</td><td>3</td><td>NO</td><td>200000</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 4: subsidy_applications</h2>
+            <button class="download-btn" onclick="downloadCSV('subsidy_applications')">⬇️ Download subsidy_applications.csv</button>
+            <table id="subsidy_applications-table">
+                <tr>
+                    <th>application_id</th>
+                    <th>citizen_id</th>
+                    <th>subsidy_id</th>
+                    <th>application_date</th>
+                    <th>status</th>
+                </tr>
+                <tr><td>APP001</td><td>C001</td><td>  S001  </td><td>2024-01-15</td><td>APPROVED</td></tr>
+                <tr><td>APP002</td><td>c002</td><td>s002</td><td>15/01/2024</td><td>pending</td></tr>
+                <tr><td>APP003</td><td>C003</td><td>S001</td><td>2024/01/20</td><td>REJECTED</td></tr>
+                <tr><td>APP004</td><td>C004</td><td>s005</td><td>20-01-2024</td><td>Approved</td></tr>
+                <tr><td>APP005</td><td>c001</td><td>S003</td><td>2024-01-22</td><td>APPROVED</td></tr>
+                <tr><td>APP006</td><td>C999</td><td>S002</td><td>2024-01-25</td><td>pending</td></tr>
+                <tr><td>APP007</td><td>c006</td><td>S001</td><td>25/01/2024</td><td>APPROVED</td></tr>
+                <tr><td>APP008</td><td>C007</td><td>s003</td><td>2024/01/28</td><td>Approved</td></tr>
+                <tr><td>APP009</td><td>c008</td><td>S004</td><td>30-01-2024</td><td>REJECTED</td></tr>
+                <tr><td>APP010</td><td>C009</td><td>  s005  </td><td>2024-02-01</td><td>pending</td></tr>
+                <tr><td>APP011</td><td>c010</td><td>S002</td><td>02/02/2024</td><td>APPROVED</td></tr>
+                <tr><td>APP012</td><td>C011</td><td>s003</td><td>2024/02/05</td><td>Approved</td></tr>
+                <tr><td>APP013</td><td>c012</td><td>S001</td><td>08-02-2024</td><td>APPROVED</td></tr>
+                <tr><td>APP014</td><td>C013</td><td>S001</td><td>2024-02-10</td><td>REJECTED</td></tr>
+                <tr><td>APP015</td><td>c014</td><td>s002</td><td>12/02/2024</td><td>pending</td></tr>
+                <tr><td>APP016</td><td>C015</td><td>S004</td><td>2024/02/15</td><td>Approved</td></tr>
+                <tr><td>APP017</td><td>c016</td><td>  s005  </td><td>18-02-2024</td><td>APPROVED</td></tr>
+                <tr><td>APP018</td><td>C017</td><td>S004</td><td>2024-02-20</td><td>APPROVED</td></tr>
+                <tr><td>APP019</td><td>c018</td><td>s003</td><td>22/02/2024</td><td>pending</td></tr>
+                <tr><td>APP020</td><td>C019</td><td>S002</td><td>2024/02/25</td><td>Approved</td></tr>
+                <tr><td>APP021</td><td>c020</td><td>S006</td><td>28-02-2024</td><td>pending</td></tr>
+                <tr><td>APP022</td><td>C021</td><td>  s007  </td><td>2024-03-01</td><td>APPROVED</td></tr>
+                <tr><td>APP023</td><td>c022</td><td>S001</td><td>03/03/2024</td><td>Approved</td></tr>
+                <tr><td>APP024</td><td>C023</td><td>s008</td><td>2024/03/05</td><td>REJECTED</td></tr>
+                <tr><td>APP025</td><td>c024</td><td>S005</td><td>08-03-2024</td><td>APPROVED</td></tr>
+                <tr><td>APP026</td><td>C025</td><td>s003</td><td>2024-03-10</td><td>pending</td></tr>
+                <tr><td>APP027</td><td>C888</td><td>S999</td><td>12/03/2024</td><td>Approved</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <div class="instructions">
+                <h3>📌 How to Import into MySQL/PostgreSQL</h3>
+                <p><strong>MySQL:</strong></p>
+                <p>1. Create database: <code>CREATE DATABASE govt_welfare;</code></p>
+                <p>2. Import CSV: <code>LOAD DATA INFILE 'path/citizens.csv' INTO TABLE citizens FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;</code></p>
+                <br>
+                <p><strong>PostgreSQL:</strong></p>
+                <p>1. Create database: <code>CREATE DATABASE govt_welfare;</code></p>
+                <p>2. Import CSV: <code>\COPY citizens FROM 'path/citizens.csv' WITH (FORMAT csv, HEADER true);</code></p>
+                <br>
+                <p><strong>Note:</strong> Create tables first with appropriate column types before importing!</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="day-15-challenge.html">← Back to Challenge</a>
+        </div>
+    </div>
+
+    <script>
+        function downloadCSV(tableName) {
+            const table = document.getElementById(tableName + '-table');
+            let csv = [];
+            const rows = table.querySelectorAll('tr');
+            
+            for (let row of rows) {
+                let cols = row.querySelectorAll('td, th');
+                let csvRow = [];
+                for (let col of cols) {
+                    csvRow.push('"' + col.innerText.replace(/"/g, '""') + '"');
+                }
+                csv.push(csvRow.join(','));
+            }
+            
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'day_15_' + tableName + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
