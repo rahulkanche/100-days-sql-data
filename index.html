@@ -122,10 +122,24 @@
         .day-card.coming-soon {
             opacity: 0.6;
             cursor: not-allowed;
+            pointer-events: none;
+        }
+        .day-card.coming-soon .day-number {
+            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
         }
         .day-card.coming-soon:hover {
             transform: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .coming-soon-badge {
+            display: inline-block;
+            background: #fbbf24;
+            color: #78350f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
         }
         .footer {
             background: white;
@@ -170,61 +184,179 @@
             <p><strong>How to use:</strong> Click on any day below → Download CSV files → Import to your SQL database → Practice the challenge → Share your solution with <strong>#100DaysSQLChallenge</strong></p>
         </div>
 
-            <div class="days-grid">
-        <!-- Day 12 - AVAILABLE -->
-        <a href="day-12-challenge.html" class="day-card">
-            <div class="day-number">DAY 12</div>
-            <h3>🔧 Complete Data Cleaning Pipeline</h3>
-            <p>E-Commerce messy data cleaning with REGEXP validation, multi-table JOINs, and data quality scoring.</p>
-            <div class="topics">
-                <span class="topic-tag">Data Cleaning</span>
-                <span class="topic-tag">JOINs</span>
-                <span class="topic-tag">REGEXP</span>
-                <span class="topic-tag">Quality</span>
+        <div class="days-grid">
+            <!-- Day 12 - AVAILABLE -->
+            <a href="day-12-challenge.html" class="day-card">
+                <div class="day-number">DAY 12</div>
+                <h3>🔧 Complete Data Cleaning Pipeline</h3>
+                <p>E-Commerce messy data cleaning with REGEXP validation, multi-table JOINs, and data quality scoring.</p>
+                <div class="topics">
+                    <span class="topic-tag">Data Cleaning</span>
+                    <span class="topic-tag">JOINs</span>
+                    <span class="topic-tag">REGEXP</span>
+                    <span class="topic-tag">Quality</span>
+                </div>
+            </a>
+
+            <!-- Day 13 - AVAILABLE -->
+            <a href="day-13-challenge.html" class="day-card">
+                <div class="day-number">DAY 13</div>
+                <h3>💳 Banking Fraud Detection</h3>
+                <p>Build a fraud detection pipeline with window functions, risk scoring, and multi-table JOINs for banking security.</p>
+                <div class="topics">
+                    <span class="topic-tag">Window Functions</span>
+                    <span class="topic-tag">Fraud Detection</span>
+                    <span class="topic-tag">Risk Scoring</span>
+                    <span class="topic-tag">LAG/TIMESTAMPDIFF</span>
+                </div>
+            </a>
+
+            <!-- Day 14 - AVAILABLE -->
+            <a href="day-14-challenge.html" class="day-card">
+                <div class="day-number">DAY 14</div>
+                <h3>🏥 Hospital Patient Management</h3>
+                <p>Track patient records, prescriptions, and medications with data cleaning, JOINs, date calculations, and risk scoring.</p>
+                <div class="topics">
+                    <span class="topic-tag">Healthcare Data</span>
+                    <span class="topic-tag">Prescription Tracking</span>
+                    <span class="topic-tag">Date Calculations</span>
+                    <span class="topic-tag">Risk Scoring</span>
+                </div>
+            </a>
+
+            <!-- Day 15 - AVAILABLE -->
+            <a href="day-15-challenge.html" class="day-card">
+                <div class="day-number">DAY 15</div>
+                <h3>🏛️ Government Welfare & Subsidy Management</h3>
+                <p>Validate subsidies, detect fraud, and manage citizen benefits with multi-table JOINs.</p>
+                <div class="topics">
+                    <span class="topic-tag">BETWEEN</span>
+                    <span class="topic-tag">Fraud Detection</span>
+                    <span class="topic-tag">CTEs</span>
+                    <span class="topic-tag">Multi-Table JOINs</span>
+                </div>
+            </a>
+
+            <!-- Day 16 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 16</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
             </div>
-        </a>
-    
-        <!-- Day 13 - AVAILABLE -->
-        <a href="day-13-challenge.html" class="day-card">
-            <div class="day-number">DAY 13</div>
-            <h3>💳 Banking Fraud Detection</h3>
-            <p>Build a fraud detection pipeline with window functions, risk scoring, and multi-table JOINs for banking security.</p>
-            <div class="topics">
-                <span class="topic-tag">Window Functions</span>
-                <span class="topic-tag">Fraud Detection</span>
-                <span class="topic-tag">Risk Scoring</span>
-                <span class="topic-tag">LAG/TIMESTAMPDIFF</span>
+
+            <!-- Day 17 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 17</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
             </div>
-        </a>
-    
-        <!-- Day 14 - AVAILABLE (NEW!) -->
-        <a href="day-14-challenge.html" class="day-card">
-            <div class="day-number">DAY 14</div>
-            <h3>🏥 Hospital Patient Management</h3>
-            <p>Track patient records, prescriptions, and medications with data cleaning, JOINs, date calculations, and risk scoring.</p>
-            <div class="topics">
-                <span class="topic-tag">Healthcare Data</span>
-                <span class="topic-tag">Prescription Tracking</span>
-                <span class="topic-tag">Date Calculations</span>
-                <span class="topic-tag">Risk Scoring</span>
+
+            <!-- Day 18 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 18</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
             </div>
-        </a>
-    
-        <!-- Day 15 Card -->
-<a href="day-15-challenge.html" class="day-card">
-    <div class="day-number">DAY 15</div>
-    <h3>🏛️ Government Welfare & Subsidy Management</h3>
-    <p>Validate subsidies, detect fraud, and manage citizen benefits with multi-table JOINs.</p>
-    <div class="topics">
-        <span class="topic-tag">BETWEEN</span>
-        <span class="topic-tag">Fraud Detection</span>
-        <span class="topic-tag">CTEs</span>
-        <span class="topic-tag">Multi-Table JOINs</span>
-    </div>
-</a>
-    
-        <!-- More days will be added here as we progress... -->
-    </div>
+
+            <!-- Day 19 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 19</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 20 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 20</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 21 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 21</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 22 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 22</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 23 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 23</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 24 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 24</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 25 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 25</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 26 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 26</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 27 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 27</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 28 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 28</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 29 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 29</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Day 30 - COMING SOON -->
+            <div class="day-card coming-soon">
+                <div class="day-number">DAY 30</div>
+                <h3>🔜 Coming Soon</h3>
+                <p>New SQL challenge releasing soon. Stay tuned!</p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+        </div>
 
         <div class="footer">
             <h3>👨‍💻 Created by Rahul Kanche</h3>
@@ -234,7 +366,7 @@
                 <a href="https://github.com/rahulkanche/100-days-sql-data" target="_blank">⭐ Star on GitHub</a>
                 <a href="https://www.linkedin.com/in/rahulkanche/" target="_blank">🔗 Connect on LinkedIn</a>
             </div>
-            <p style="margin-top: 20px; font-size: 14px; color: #9ca3af;">Last Updated: January 2026</p>
+            <p style="margin-top: 20px; font-size: 14px; color: #9ca3af;">Last Updated: January 2026 • Days 12-15 Available</p>
         </div>
     </div>
 </body>
