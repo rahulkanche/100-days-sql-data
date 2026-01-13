@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 17 - Data Download</title>
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: Arial, sans-serif;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);min-height: 100vh;padding: 40px 20px;}
+        .container {max-width: 1100px;margin: 0 auto;}
+        .hero {background: white;padding: 50px;border-radius: 15px;text-align: center;margin-bottom: 30px;box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
+        .hero h1 {color: #667eea;font-size: 42px;margin-bottom: 15px;}
+        .hero p {font-size: 18px;color: #666;line-height: 1.8;}
+        .topic-badges {margin: 20px 0;}
+        .badge {display: inline-block;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;padding: 8px 20px;border-radius: 20px;margin: 5px;font-size: 14px;font-weight: bold;}
+        .table-section {background: white;padding: 40px;border-radius: 15px;margin-bottom: 25px;box-shadow: 0 5px 20px rgba(0,0,0,0.1);}
+        .table-section h2 {color: #667eea;font-size: 28px;margin-bottom: 20px;}
+        .download-btn {background: #10b981;color: white;border: none;padding: 12px 30px;border-radius: 8px;font-size: 16px;font-weight: bold;cursor: pointer;transition: background 0.3s;}
+        .download-btn:hover {background: #059669;}
+        table {width: 100%;border-collapse: collapse;margin: 20px 0;font-size: 14px;}
+        table th {background: #667eea;color: white;padding: 12px;text-align: left;}
+        table td {border: 1px solid #e2e8f0;padding: 10px;}
+        table tr:nth-child(even) {background: #f7fafc;}
+        .instructions {background: #fef3c7;border-left: 5px solid #f59e0b;padding: 25px;border-radius: 8px;margin-top: 30px;}
+        .instructions h3 {color: #d97706;margin-bottom: 15px;font-size: 22px;}
+        .instructions code {background: #fff;padding: 3px 8px;border-radius: 4px;color: #d97706;font-size: 14px;}
+        .back-link {text-align: center;margin-top: 30px;}
+        .back-link a {color: white;font-size: 18px;text-decoration: none;background: rgba(255,255,255,0.2);padding: 12px 30px;border-radius: 8px;display: inline-block;transition: background 0.3s;}
+        .back-link a:hover {background: rgba(255,255,255,0.3);}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>📊 Day 17 - Data Download</h1>
+            <p style="font-size: 20px; color: #764ba2; font-weight: bold; margin: 15px 0;">Ride-Sharing Trip Analytics</p>
+            <p>Download all 5 tables with complete messy data (50+ trips, 15 riders, 10 drivers)</p>
+            <div class="topic-badges">
+                <span class="badge">Window Functions</span>
+                <span class="badge">RANK & PARTITION BY</span>
+                <span class="badge">Complex JOINs</span>
+                <span class="badge">TIMESTAMPDIFF</span>
+                <span class="badge">CTEs</span>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 1: trips (50 rows)</h2>
+            <button class="download-btn" onclick="downloadCSV('trips')">⬇️ Download trips.csv</button>
+            <table id="trips-table">
+                <tr><th>trip_id</th><th>rider_id</th><th>driver_id</th><th>pickup_time</th><th>dropoff_time</th><th>distance_km</th><th>fare_amount</th><th>status</th></tr>
+                <tr><td>  T001  </td><td>R101</td><td>  D201  </td><td>2024-01-15 08:30:00</td><td>2024-01-15 09:15:00</td><td>12.5</td><td>250.00</td><td>completed</td></tr>
+                <tr><td>t002</td><td>  r102  </td><td>D202</td><td>15/01/2024 10:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>T003</td><td>R103</td><td>d203</td><td>2024-01-15 14:30:00</td><td>2024-01-15 15:10:00</td><td>8.3</td><td>175.50</td><td>  Completed  </td></tr>
+                <tr><td>T004</td><td>r104</td><td>  D204  </td><td>16/01/2024 07:45</td><td>16/01/2024 08:20</td><td>15.2</td><td>NULL</td><td>completed</td></tr>
+                <tr><td>t005</td><td>R105</td><td>D201</td><td>2024-01-16 18:00:00</td><td>2024-01-16 18:45:00</td><td>10.8</td><td>320.00</td><td>COMPLETED</td></tr>
+                <tr><td>T006</td><td>r106</td><td>D205</td><td>2024-01-16 09:00:00</td><td>2024-01-16 09:40:00</td><td>7.2</td><td>145.00</td><td>completed</td></tr>
+                <tr><td>t007</td><td>R107</td><td>  d206  </td><td>17/01/2024 11:30</td><td>17/01/2024 12:15</td><td>11.5</td><td>230.00</td><td>Completed</td></tr>
+                <tr><td>T008</td><td>R108</td><td>D207</td><td>2024-01-17 13:00:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>t009</td><td>  r109  </td><td>D208</td><td>18/01/2024 08:15</td><td>18/01/2024 08:50</td><td>9.8</td><td>196.00</td><td>completed</td></tr>
+                <tr><td>T010</td><td>R110</td><td>  D209  </td><td>2024-01-18 17:30:00</td><td>2024-01-18 18:20:00</td><td>13.4</td><td>NULL</td><td>COMPLETED</td></tr>
+                <tr><td>t011</td><td>R111</td><td>D210</td><td>19/01/2024 07:00</td><td>19/01/2024 07:35</td><td>6.5</td><td>130.00</td><td>completed</td></tr>
+                <tr><td>T012</td><td>  r101  </td><td>D201</td><td>2024-01-19 08:30:00</td><td>2024-01-19 09:20:00</td><td>14.2</td><td>400.00</td><td>Completed</td></tr>
+                <tr><td>t013</td><td>R112</td><td>  d202  </td><td>20/01/2024 10:00</td><td>20/01/2024 10:45</td><td>10.1</td><td>202.00</td><td>COMPLETED</td></tr>
+                <tr><td>T014</td><td>R113</td><td>D203</td><td>2024-01-20 14:00:00</td><td>2024-01-20 14:35:00</td><td>7.8</td><td>156.00</td><td>completed</td></tr>
+                <tr><td>t015</td><td>R114</td><td>D204</td><td>21/01/2024 08:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>T016</td><td>  r115  </td><td>  D205  </td><td>2024-01-21 12:30:00</td><td>2024-01-21 13:10:00</td><td>9.5</td><td>190.00</td><td>Completed</td></tr>
+                <tr><td>t017</td><td>R101</td><td>D206</td><td>22/01/2024 07:45</td><td>22/01/2024 08:25</td><td>11.3</td><td>226.00</td><td>completed</td></tr>
+                <tr><td>T018</td><td>R102</td><td>d207</td><td>2024-01-22 18:15:00</td><td>2024-01-22 19:00:00</td><td>12.7</td><td>380.00</td><td>COMPLETED</td></tr>
+                <tr><td>t019</td><td>  R103  </td><td>D208</td><td>23/01/2024 09:00</td><td>23/01/2024 09:40</td><td>8.9</td><td>178.00</td><td>completed</td></tr>
+                <tr><td>T020</td><td>r104</td><td>D209</td><td>2024-01-23 15:30:00</td><td>2024-01-23 16:15:00</td><td>10.6</td><td>NULL</td><td>Completed</td></tr>
+                <tr><td>t021</td><td>R105</td><td>  D210  </td><td>24/01/2024 08:30</td><td>24/01/2024 09:10</td><td>11.8</td><td>236.00</td><td>COMPLETED</td></tr>
+                <tr><td>T022</td><td>R106</td><td>D201</td><td>2024-01-24 13:00:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>t023</td><td>  r107  </td><td>d202</td><td>25/01/2024 08:45</td><td>25/01/2024 09:30</td><td>13.5</td><td>450.00</td><td>completed</td></tr>
+                <tr><td>T024</td><td>R108</td><td>D203</td><td>2024-01-25 11:00:00</td><td>2024-01-25 11:45:00</td><td>9.2</td><td>184.00</td><td>Completed</td></tr>
+                <tr><td>t025</td><td>R109</td><td>  D204  </td><td>26/01/2024 07:30</td><td>26/01/2024 08:05</td><td>7.5</td><td>150.00</td><td>COMPLETED</td></tr>
+                <tr><td>T026</td><td>R110</td><td>D205</td><td>2024-01-26 17:45:00</td><td>2024-01-26 18:30:00</td><td>12.1</td><td>NULL</td><td>completed</td></tr>
+                <tr><td>t027</td><td>  r111  </td><td>D206</td><td>27/01/2024 09:15</td><td>27/01/2024 10:00</td><td>10.4</td><td>208.00</td><td>Completed</td></tr>
+                <tr><td>T028</td><td>R112</td><td>d207</td><td>2024-01-27 14:30:00</td><td>2024-01-27 15:10:00</td><td>8.7</td><td>174.00</td><td>COMPLETED</td></tr>
+                <tr><td>t029</td><td>R113</td><td>D208</td><td>28/01/2024 18:00</td><td>28/01/2024 18:50</td><td>14.3</td><td>350.00</td><td>completed</td></tr>
+                <tr><td>T030</td><td>  R114  </td><td>  D209  </td><td>2024-01-28 08:00:00</td><td>2024-01-28 08:40:00</td><td>9.6</td><td>192.00</td><td>Completed</td></tr>
+                <tr><td>t031</td><td>r115</td><td>D210</td><td>29/01/2024 12:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>T032</td><td>R101</td><td>D201</td><td>2024-01-29 07:30:00</td><td>2024-01-29 08:15:00</td><td>11.9</td><td>238.00</td><td>completed</td></tr>
+                <tr><td>t033</td><td>R102</td><td>  d202  </td><td>30/01/2024 10:30</td><td>30/01/2024 11:10</td><td>8.4</td><td>168.00</td><td>COMPLETED</td></tr>
+                <tr><td>T034</td><td>  R103  </td><td>D203</td><td>2024-01-30 15:00:00</td><td>2024-01-30 15:45:00</td><td>10.7</td><td>NULL</td><td>Completed</td></tr>
+                <tr><td>t035</td><td>r104</td><td>D204</td><td>31/01/2024 08:45</td><td>31/01/2024 09:25</td><td>12.3</td><td>246.00</td><td>completed</td></tr>
+                <tr><td>T036</td><td>R105</td><td>  D205  </td><td>2024-01-31 13:30:00</td><td>2024-01-31 14:15:00</td><td>9.8</td><td>196.00</td><td>COMPLETED</td></tr>
+                <tr><td>t037</td><td>R106</td><td>D206</td><td>01/02/2024 07:00</td><td>01/02/2024 07:40</td><td>8.1</td><td>162.00</td><td>Completed</td></tr>
+                <tr><td>T038</td><td>  r107  </td><td>d207</td><td>2024-02-01 11:00:00</td><td>2024-02-01 11:50:00</td><td>13.8</td><td>276.00</td><td>completed</td></tr>
+                <tr><td>t039</td><td>R108</td><td>D208</td><td>02/02/2024 17:30</td><td>02/02/2024 18:20</td><td>15.1</td><td>NULL</td><td>COMPLETED</td></tr>
+                <tr><td>T040</td><td>R109</td><td>  D209  </td><td>2024-02-02 08:15:00</td><td>2024-02-02 09:00:00</td><td>10.9</td><td>218.00</td><td>completed</td></tr>
+                <tr><td>t041</td><td>R110</td><td>D210</td><td>03/02/2024 14:00</td><td>03/02/2024 14:40</td><td>7.6</td><td>152.00</td><td>Completed</td></tr>
+                <tr><td>T042</td><td>  r111  </td><td>D201</td><td>2024-02-03 09:30:00</td><td>2024-02-03 10:15:00</td><td>11.4</td><td>228.00</td><td>COMPLETED</td></tr>
+                <tr><td>t043</td><td>R112</td><td>  d202  </td><td>04/02/2024 12:00</td><td>NULL</td><td>NULL</td><td>NULL</td><td>CANCELLED</td></tr>
+                <tr><td>T044</td><td>R113</td><td>D203</td><td>2024-02-04 07:45:00</td><td>2024-02-04 08:30:00</td><td>9.3</td><td>186.00</td><td>completed</td></tr>
+                <tr><td>t045</td><td>R114</td><td>D204</td><td>05/02/2024 16:00</td><td>05/02/2024 16:50</td><td>14.6</td><td>NULL</td><td>COMPLETED</td></tr>
+                <tr><td>T046</td><td>  R115  </td><td>  D205  </td><td>2024-02-05 08:00:00</td><td>2024-02-05 08:45:00</td><td>10.2</td><td>204.00</td><td>Completed</td></tr>
+                <tr><td>t047</td><td>r101</td><td>D206</td><td>06/02/2024 11:30</td><td>06/02/2024 12:10</td><td>8.8</td><td>176.00</td><td>completed</td></tr>
+                <tr><td>T048</td><td>R102</td><td>d207</td><td>2024-02-06 15:30:00</td><td>2024-02-06 16:15:00</td><td>11.7</td><td>234.00</td><td>COMPLETED</td></tr>
+                <tr><td>t049</td><td>R103</td><td>D208</td><td>07/02/2024 09:00</td><td>07/02/2024 09:50</td><td>13.2</td><td>264.00</td><td>Completed</td></tr>
+                <tr><td>T050</td><td>  r104  </td><td>  D209  </td><td>2024-02-07 13:00:00</td><td>2024-02-07 13:45:00</td><td>9.9</td><td>198.00</td><td>completed</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 2: drivers (10 rows)</h2>
+            <button class="download-btn" onclick="downloadCSV('drivers')">⬇️ Download drivers.csv</button>
+            <table id="drivers-table">
+                <tr><th>driver_id</th><th>driver_name</th><th>join_date</th><th>vehicle_type</th><th>rating</th><th>total_trips</th></tr>
+                <tr><td>D201</td><td>  amit sharma  </td><td>2023-05-10</td><td>sedan</td><td>4.8</td><td>523</td></tr>
+                <tr><td>d202</td><td>PRIYA KUMAR</td><td>15/06/2023</td><td>  SUV  </td><td>NULL</td><td>412</td></tr>
+                <tr><td>D203</td><td>rajesh patel</td><td>2023-07-22</td><td>SEDAN</td><td>4.5</td><td>NULL</td></tr>
+                <tr><td>D204</td><td>  NEHA SINGH  </td><td>10-08-2023</td><td>suv</td><td>4.9</td><td>678</td></tr>
+                <tr><td>d205</td><td>VIKRAM RAO</td><td>2023-09-15</td><td>Sedan</td><td>4.7</td><td>345</td></tr>
+                <tr><td>D206</td><td>kavita desai</td><td>2023-10-20</td><td>  sedan  </td><td>4.6</td><td>NULL</td></tr>
+                <tr><td>d207</td><td>  RAHUL MEHTA  </td><td>05-11-2023</td><td>SUV</td><td>NULL</td><td>289</td></tr>
+                <tr><td>D208</td><td>ANJALI VERMA</td><td>2023-12-01</td><td>sedan</td><td>4.8</td><td>398</td></tr>
+                <tr><td>d209</td><td>suresh kumar</td><td>15/12/2023</td><td>  Sedan  </td><td>4.4</td><td>NULL</td></tr>
+                <tr><td>D210</td><td>  POOJA SHAH  </td><td>2024-01-05</td><td>SUV</td><td>4.9</td><td>156</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 3: riders (15 rows)</h2>
+            <button class="download-btn" onclick="downloadCSV('riders')">⬇️ Download riders.csv</button>
+            <table id="riders-table">
+                <tr><th>rider_id</th><th>rider_name</th><th>signup_date</th><th>city</th><th>total_trips</th></tr>
+                <tr><td>R101</td><td>john doe</td><td>2024-01-01</td><td>  mumbai  </td><td>15</td></tr>
+                <tr><td>r102</td><td>  SARAH SMITH  </td><td>05/01/2024</td><td>Delhi</td><td>NULL</td></tr>
+                <tr><td>R103</td><td>MIKE WILSON</td><td>2024-01-08</td><td>bangalore</td><td>22</td></tr>
+                <tr><td>R104</td><td>anna garcia</td><td>10-01-2024</td><td>  MUMBAI  </td><td>8</td></tr>
+                <tr><td>r105</td><td>Bob Martin</td><td>2024-01-12</td><td>Delhi</td><td>12</td></tr>
+                <tr><td>R106</td><td>  EMMA BROWN  </td><td>15/01/2024</td><td>bangalore</td><td>NULL</td></tr>
+                <tr><td>r107</td><td>david johnson</td><td>2024-01-18</td><td>mumbai</td><td>18</td></tr>
+                <tr><td>R108</td><td>LISA ANDERSON</td><td>20-01-2024</td><td>  Delhi  </td><td>10</td></tr>
+                <tr><td>r109</td><td>  james taylor  </td><td>2024-01-22</td><td>BANGALORE</td><td>NULL</td></tr>
+                <tr><td>R110</td><td>MARIA MARTINEZ</td><td>25/01/2024</td><td>Mumbai</td><td>14</td></tr>
+                <tr><td>r111</td><td>william davis</td><td>2024-01-28</td><td>delhi</td><td>9</td></tr>
+                <tr><td>R112</td><td>  sophia rodriguez  </td><td>30-01-2024</td><td>  Bangalore  </td><td>NULL</td></tr>
+                <tr><td>r113</td><td>ROBERT WILSON</td><td>2024-02-01</td><td>MUMBAI</td><td>16</td></tr>
+                <tr><td>R114</td><td>jennifer lee</td><td>03/02/2024</td><td>delhi</td><td>7</td></tr>
+                <tr><td>r115</td><td>  MICHAEL THOMAS  </td><td>2024-02-05</td><td>bangalore</td><td>NULL</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 4: surge_pricing (20 rows)</h2>
+            <button class="download-btn" onclick="downloadCSV('surge_pricing')">⬇️ Download surge_pricing.csv</button>
+            <table id="surge_pricing-table">
+                <tr><th>surge_id</th><th>trip_id</th><th>surge_multiplier</th><th>surge_start</th><th>surge_end</th></tr>
+                <tr><td>S001</td><td>T005</td><td>2.5</td><td>2024-01-16 17:30:00</td><td>2024-01-16 19:30:00</td></tr>
+                <tr><td>S002</td><td>  t012  </td><td>1.8</td><td>15/01/2024 08:00</td><td>15/01/2024 10:00</td></tr>
+                <tr><td>S003</td><td>T018</td><td>NULL</td><td>2024-01-17 18:00:00</td><td>2024-01-17 20:00:00</td></tr>
+                <tr><td>S004</td><td>T023</td><td>2.0</td><td>2024-01-18 08:30:00</td><td>2024-01-18 10:00:00</td></tr>
+                <tr><td>S005</td><td>t029</td><td>1.5</td><td>19/01/2024 17:00</td><td>19/01/2024 19:00</td></tr>
+                <tr><td>S006</td><td>  T012  </td><td>2.2</td><td>2024-01-19 08:00:00</td><td>2024-01-19 10:00:00</td></tr>
+                <tr><td>S007</td><td>t018</td><td>1.9</td><td>22/01/2024 17:30</td><td>22/01/2024 19:30</td></tr>
+                <tr><td>S008</td><td>T023</td><td>NULL</td><td>2024-01-25 08:15:00</td><td>2024-01-25 10:15:00</td></tr>
+                <tr><td>S009</td><td>T029</td><td>1.7</td><td>28/01/2024 17:45</td><td>28/01/2024 19:45</td></tr>
+                <tr><td>S010</td><td>  t005  </td><td>2.8</td><td>2024-01-16 18:00:00</td><td>2024-01-16 20:00:00</td></tr>
+                <tr><td>S011</td><td>T010</td><td>2.1</td><td>18/01/2024 17:00</td><td>18/01/2024 19:00</td></tr>
+                <tr><td>S012</td><td>t026</td><td>NULL</td><td>2024-01-26 17:30:00</td><td>2024-01-26 19:30:00</td></tr>
+                <tr><td>S013</td><td>T018</td><td>1.6</td><td>22/01/2024 18:00</td><td>22/01/2024 20:00</td></tr>
+                <tr><td>S014</td><td>  T029  </td><td>2.3</td><td>2024-01-28 17:30:00</td><td>2024-01-28 19:30:00</td></tr>
+                <tr><td>S015</td><td>t039</td><td>1.9</td><td>02/02/2024 17:00</td><td>02/02/2024 19:00</td></tr>
+                <tr><td>S016</td><td>T012</td><td>NULL</td><td>2024-01-19 08:30:00</td><td>2024-01-19 10:30:00</td></tr>
+                <tr><td>S017</td><td>T023</td><td>2.4</td><td>25/01/2024 08:00</td><td>25/01/2024 10:00</td></tr>
+                <tr><td>S018</td><td>  t005  </td><td>2.0</td><td>16/01/2024 17:30</td><td>16/01/2024 19:30</td></tr>
+                <tr><td>S019</td><td>T026</td><td>1.8</td><td>2024-01-26 17:15:00</td><td>2024-01-26 19:15:00</td></tr>
+                <tr><td>S020</td><td>t039</td><td>NULL</td><td>02/02/2024 18:00</td><td>02/02/2024 20:00</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Table 5: cancellations (15 rows)</h2>
+            <button class="download-btn" onclick="downloadCSV('cancellations')">⬇️ Download cancellations.csv</button>
+            <table id="cancellations-table">
+                <tr><th>cancel_id</th><th>trip_id</th><th>cancelled_by</th><th>cancel_reason</th><th>cancel_time</th></tr>
+                <tr><td>C001</td><td>T002</td><td>  rider  </td><td>driver too far</td><td>2024-01-15 10:05:00</td></tr>
+                <tr><td>C002</td><td>t008</td><td>DRIVER</td><td>  NULL  </td><td>16/01/2024 12:30</td></tr>
+                <tr><td>C003</td><td>T015</td><td>rider</td><td>CHANGE OF PLANS</td><td>2024-01-17 08:15:00</td></tr>
+                <tr><td>C004</td><td>t022</td><td>  Driver  </td><td>traffic jam</td><td>18-01-2024 14:45</td></tr>
+                <tr><td>C005</td><td>T031</td><td>RIDER</td><td>long wait time</td><td>2024-01-20 11:30:00</td></tr>
+                <tr><td>C006</td><td>  t002  </td><td>rider</td><td>  DRIVER TOO FAR  </td><td>15/01/2024 10:10</td></tr>
+                <tr><td>C007</td><td>T008</td><td>DRIVER</td><td>NULL</td><td>2024-01-17 13:05:00</td></tr>
+                <tr><td>C008</td><td>t015</td><td>  Rider  </td><td>changed my mind</td><td>21-01-2024 08:10</td></tr>
+                <tr><td>C009</td><td>T022</td><td>driver</td><td>EMERGENCY</td><td>2024-01-24 13:10:00</td></tr>
+                <tr><td>C010</td><td>  T031  </td><td>RIDER</td><td>  found another ride  </td><td>29/01/2024 12:05</td></tr>
+                <tr><td>C011</td><td>t043</td><td>driver</td><td>NULL</td><td>2024-02-04 12:08:00</td></tr>
+                <tr><td>C012</td><td>T002</td><td>  RIDER  </td><td>too expensive</td><td>15-01-2024 10:03</td></tr>
+                <tr><td>C013</td><td>t008</td><td>Driver</td><td>VEHICLE ISSUE</td><td>2024-01-17 13:02:00</td></tr>
+                <tr><td>C014</td><td>T043</td><td>rider</td><td>  long wait  </td><td>04/02/2024 12:10</td></tr>
+                <tr><td>C015</td><td>t031</td><td>DRIVER</td><td>bad weather</td><td>2024-01-29 12:03:00</td></tr>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <div class="instructions">
+                <h3>📌 How to Import into MySQL/PostgreSQL</h3>
+                <p><strong>MySQL:</strong></p>
+                <p>1. Create database: <code>CREATE DATABASE rideshare;</code></p>
+                <p>2. Import CSV: <code>LOAD DATA INFILE 'path/trips.csv' INTO TABLE trips FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;</code></p>
+                <br>
+                <p><strong>PostgreSQL:</strong></p>
+                <p>1. Create database: <code>CREATE DATABASE rideshare;</code></p>
+                <p>2. Import CSV: <code>\COPY trips FROM 'path/trips.csv' WITH (FORMAT csv, HEADER true);</code></p>
+                <br>
+                <p><strong>Note:</strong> Create tables first with appropriate column types before importing!</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="day-17-challenge.html">← Back to Challenge</a>
+        </div>
+    </div>
+
+    <script>
+        function downloadCSV(tableName) {
+            const table = document.getElementById(tableName + '-table');
+            let csv = [];
+            const rows = table.querySelectorAll('tr');
+            
+            for (let row of rows) {
+                let cols = row.querySelectorAll('td, th');
+                let csvRow = [];
+                for (let col of cols) {
+                    csvRow.push('"' + col.innerText.replace(/"/g, '""') + '"');
+                }
+                csv.push(csvRow.join(','));
+            }
+            
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'day_17_' + tableName + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
