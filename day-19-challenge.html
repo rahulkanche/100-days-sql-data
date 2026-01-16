@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 19 - Airline Flight Delays & Aircraft Utilization</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D4B22G41TP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-D4B22G41TP');
+    </script>
+    
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: Arial, sans-serif;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);min-height: 100vh;padding: 50px 20px;}
+        .container {max-width: 900px;margin: 0 auto;}
+        .section {background: white;padding: 50px;border-radius: 15px;margin-bottom: 30px;box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
+        .cover-section {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;text-align: center;padding: 80px 50px;}
+        .cover-section h1 {font-size: 48px;margin-bottom: 20px;}
+        .day-badge {font-size: 32px;background: rgba(255,255,255,0.2);padding: 15px 40px;border-radius: 50px;display: inline-block;margin: 20px 0;font-weight: bold;}
+        .cover-section p {font-size: 20px;line-height: 1.8;margin-top: 30px;}
+        h2 {color: #667eea;font-size: 32px;margin-bottom: 25px;border-bottom: 3px solid #667eea;padding-bottom: 12px;}
+        h3 {color: #764ba2;font-size: 22px;margin: 25px 0 15px 0;}
+        p {line-height: 1.8;font-size: 16px;color: #333;margin-bottom: 15px;}
+        table {width: 100%;border-collapse: collapse;margin: 20px 0;font-size: 14px;}
+        table th {background: #667eea;color: white;padding: 12px;text-align: left;}
+        table td {border: 1px solid #e2e8f0;padding: 12px;}
+        table tr:nth-child(even) {background: #f7fafc;}
+        .link-box {background: #dbeafe;border: 3px solid #3b82f6;padding: 25px;border-radius: 12px;text-align: center;margin: 25px 0;}
+        .link-box h3 {color: #1e40af;margin-bottom: 15px;}
+        .download-btn {display: inline-block;background: #3b82f6;color: white;padding: 15px 35px;border-radius: 8px;text-decoration: none;font-weight: bold;font-size: 16px;margin: 10px 0;transition: background 0.3s;}
+        .download-btn:hover {background: #2563eb;}
+        .requirement-box {background: #fef3c7;border-left: 5px solid #f59e0b;padding: 20px;margin: 20px 0;border-radius: 8px;}
+        .requirement-box strong {color: #d97706;font-size: 18px;display: block;margin-bottom: 12px;}
+        ul {margin-left: 25px;line-height: 1.8;}
+        ul li {margin: 10px 0;font-size: 15px;}
+        .final-section {text-align: center;}
+        .social-buttons {margin: 30px 0;}
+        .social-btn {display: inline-block;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);color: white;padding: 15px 40px;border-radius: 8px;text-decoration: none;font-weight: bold;margin: 10px;font-size: 16px;transition: transform 0.3s;}
+        .social-btn:hover {transform: translateY(-3px);}
+        .practice-box {background: #f0fdf4;border: 2px solid #10b981;padding: 30px;border-radius: 12px;margin: 30px 0;}
+        .practice-box h3 {color: #047857;text-align: center;font-size: 24px;margin-bottom: 15px;}
+        .practice-box p {color: #065f46;text-align: center;font-size: 16px;}
+        @media (max-width: 768px) {
+            .section {padding: 30px 25px;}
+            .cover-section {padding: 60px 30px;}
+            .cover-section h1 {font-size: 36px;}
+            h2 {font-size: 28px;}
+            .social-btn {display: block;margin: 10px 0;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section cover-section">
+            <h1>📚 100 DAYS SQL<br>CODING CHALLENGE</h1>
+            <div class="day-badge">DAY 19</div>
+            <p style="font-size: 24px; margin-top: 30px;">Airline Flight Delays & Aircraft Utilization</p>
+            <p>✨ Master SQL One Problem at a Time ✨</p>
+        </div>
+
+        <div class="section">
+            <div class="link-box">
+                <h3>📊 Download Practice Dataset</h3>
+                <p style="color: #1e40af; font-size: 16px; margin: 15px 0;">Get all CSV files to practice this challenge:</p>
+                <a href="day-19-data.html" class="download-btn">📥 Download Day 19 Data</a>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">3 tables: flights, aircraft, routes</p>
+            </div>
+
+            <h2>✈️ Airline Operations Analytics</h2>
+            <p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Analyze flight delays, aircraft performance, and maintenance tracking for optimal airline operations.</p>
+
+            <h3>Table 1: flights (5 of 25 rows)</h3>
+            <table>
+                <tr>
+                    <th>flight_id</th>
+                    <th>aircraft_id</th>
+                    <th>route_id</th>
+                    <th>flight_date</th>
+                    <th>delay_minutes</th>
+                    <th>status</th>
+                </tr>
+                <tr><td> FL001 </td><td>A101</td><td>R001</td><td>2024-01-15</td><td>0</td><td>ON TIME</td></tr>
+                <tr><td>fl002</td><td>A102</td><td> r002 </td><td>2024-01-15</td><td>15</td><td>delayed</td></tr>
+                <tr><td>FL003</td><td>A101</td><td>R003</td><td>2024-01-16</td><td>45</td><td>DELAYED</td></tr>
+                <tr><td>fl004</td><td> A103 </td><td>R001</td><td>2024-01-16</td><td>0</td><td>On Time</td></tr>
+            </table>
+            <p style="font-size: 14px; color: #6b7280; font-style: italic;">...20 more rows in the download!</p>
+
+            <h3>Table 2: aircraft</h3>
+            <table>
+                <tr>
+                    <th>aircraft_id</th>
+                    <th>model</th>
+                    <th>manufacturer</th>
+                    <th>seat_capacity</th>
+                    <th>last_maintenance</th>
+                </tr>
+                <tr><td>A101</td><td>737-800</td><td>Boeing</td><td>189</td><td>2024-01-10</td></tr>
+                <tr><td>A102</td><td>A320</td><td>Airbus</td><td>180</td><td>NULL</td></tr>
+                <tr><td>A103</td><td>737-900</td><td>Boeing</td><td>220</td><td>2024-01-05</td></tr>
+            </table>
+
+            <h3>Table 3: routes</h3>
+            <table>
+                <tr>
+                    <th>route_id</th>
+                    <th>origin</th>
+                    <th>destination</th>
+                    <th>distance_km</th>
+                </tr>
+                <tr><td>R001</td><td>Mumbai</td><td>Delhi</td><td>1400</td></tr>
+                <tr><td>R002</td><td>Delhi</td><td>Bangalore</td><td>1740</td></tr>
+                <tr><td>R003</td><td>Mumbai</td><td>Bangalore</td><td>980</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📋 Your Challenge</h2>
+            <p style="font-size: 17px; color: #764ba2; font-weight: bold; margin-bottom: 25px;">Build airline operations analytics with data cleaning, delay calculations, and performance scoring.</p>
+
+            <div class="requirement-box">
+                <strong>🧹 Data Cleaning:</strong>
+                <ul>
+                    <li>Standardize all IDs (flight_id, aircraft_id, route_id) - uppercase and trim</li>
+                    <li>Standardize status values - uppercase</li>
+                    <li>Handle NULL actual_departure (cancelled flights)</li>
+                    <li>Calculate delays from timestamps when delay_minutes is NULL</li>
+                    <li>Handle NULL last_maintenance dates</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>🔗 JOINs & Data Enrichment:</strong>
+                <ul>
+                    <li>JOIN flights to aircraft</li>
+                    <li>JOIN flights to routes</li>
+                    <li>Calculate aircraft age from year_manufactured</li>
+                    <li>Calculate days since last maintenance</li>
+                    <li>Detect orphan flights (invalid aircraft_id or route_id)</li>
+                </ul>
+            </div>
+
+            <div class="requirement-box">
+                <strong>⚠️ Performance Analysis:</strong>
+                <ul>
+                    <li>Calculate delay rate percentage per aircraft</li>
+                    <li>Calculate average delay for delayed flights only</li>
+                    <li>Identify high-delay aircraft (>30% delayed flights)</li>
+                    <li>Flag aircraft overdue for maintenance (>30 days)</li>
+                    <li>Categorize performance: Critical, Warning, Good, Excellent</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 17px; color: #047857; font-weight: bold;">💡 Key SQL Concepts: TIMESTAMPDIFF, DATEDIFF, CASE WHEN, LEFT JOIN, CTEs, Conditional Aggregation!</p>
+        </div>
+
+        <div class="section final-section">
+            <h2 style="border: none; font-size: 38px; margin-bottom: 20px;">Ready to Solve?</h2>
+            <p style="font-size: 18px; color: #666; margin-bottom: 30px;">Download the full challenge PDF with complete solution, explanations, and step-by-step hints!</p>
+
+            <div class="link-box">
+                <h3>🔗 Connect & Get Solutions</h3>
+                <p style="color: #1e40af; font-size: 16px; margin: 15px 0;">Follow for complete solutions and all 100 challenges:</p>
+                <div class="social-buttons">
+                    <a href="https://linkedin.com/in/rahulkanche" class="social-btn" target="_blank">💼 LinkedIn - Rahul Kanche</a>
+                    <a href="https://github.com/rahulkanche/100-days-sql-data" class="social-btn" target="_blank">💻 GitHub - 100 Days SQL</a>
+                </div>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">Complete solutions posted on LinkedIn • All data on GitHub</p>
+            </div>
+
+            <div class="practice-box">
+                <h3>💪 Keep Practicing!</h3>
+                <p style="line-height: 1.8;">Master airline operations data<br>Build delay analytics systems<br>Optimize aircraft utilization<br><br><strong style="color: #047857; font-size: 18px;">Day 20 coming tomorrow!</strong></p>
+            </div>
+
+            <p style="font-size: 20px; color: #667eea; font-weight: bold; margin-top: 40px;">Follow the 100 Days SQL Challenge</p>
+            <p style="font-size: 18px; color: #764ba2; margin-top: 10px;">Master SQL one problem at a time!</p>
+            <p style="font-size: 16px; color: #888; margin-top: 30px; font-style: italic;">Rahul Kanche --- exploring data, decoding clarity!</p>
+            <p style="font-size: 14px; color: #888; margin-top: 20px;">Created by: Rahul Kanche</p>
+        </div>
+    </div>
+</body>
+</html>
